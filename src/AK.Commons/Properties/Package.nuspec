@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>AK.Commons</id>
+    <title>Aashish Koirala's Commons Library</title>
+    <version>0.1.1</version>
+    <authors>Aashish Koirala</authors>
+    <owners>Aashish Koirala</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>ak.commons commons aashish koirala</tags>
+    <description>
+      This is a general purpose commons library that I've built mostly for my own use within applications that I build (but obviously you are welcome to use it should you choose). The goal is to have an easy-to-use and uniform yet modular and pluggable facility to handle common cross-cutting concerns in my applications, thereby freeing me up to focus on the actual application concerns and hopefully making it easier and faster to build them.
+      In general, the library consists of interfaces or SPIs along with ways to access them (using MEF). One can then build implementations for these interfaces (i.e. providers) and hook them up to an application through configuration. What this does for me is provide a uniform way to access these services in all my applications while allowing me to switch or extend providers as I see fit.
+      For more detailed information and documentation, please visit the GitHub page for this repository at http://aashishkoirala.github.io/commons. You can find more of my stuff by visiting my page at http://aashishkoirala.github.io.
+      The package is free to download and use. The source code is open and provided under the GPL license.
+    </description>
+    <copyright>Copyright © 2013 Aashish Koirala</copyright>
+    <projectUrl>http://aashishkoirala.github.io/commons/</projectUrl>
+    <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Data.DataSetExtensions" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net45" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

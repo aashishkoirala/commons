@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{70898BAD-DF90-41B3-AF9B-072B2F674EB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AK.Commons</RootNamespace>
+    <AssemblyName>AK.Commons</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Properties\AssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeGen\CodeGenerationOutput.cs" />
+    <Compile Include="Composition\ComposerException.cs" />
+    <Compile Include="Configuration\AppConfigException.cs" />
+    <Compile Include="DataAccess\DataAccessException.cs" />
+    <Compile Include="DataAccess\IAppDataAccess.cs" />
+    <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="DataAccess\IUnitOfWork.cs" />
+    <Compile Include="DataAccess\IUnitOfWorkFactory.cs" />
+    <Compile Include="Composition\IProviderMetadata.cs" />
+    <Compile Include="DataAccess\RepositoryBase.cs" />
+    <Compile Include="Composition\ProviderMetadataAttribute.cs" />
+    <Compile Include="DataAccess\UnitOfWorkUtility.cs" />
+    <Compile Include="Providers\Configuration\AppConfig.cs" />
+    <Compile Include="AppEnvironment.cs" />
+    <Compile Include="Configuration\ConfigStoreUtility.cs" />
+    <Compile Include="Configuration\IConfigStore.cs" />
+    <Compile Include="Configuration\Sections\ApplicationConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\ApplicationConfigurationElementCollection.cs" />
+    <Compile Include="Configuration\Sections\ApplicationSettingsConfigurationSection.cs" />
+    <Compile Include="Configuration\Sections\IObjectSettingsConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\StoreConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\PropertyConfigurationElementCollection.cs" />
+    <Compile Include="Configuration\Sections\PropertyConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\ObjectSettingUtility.cs" />
+    <Compile Include="Configuration\Sections\StoreConfigurationSection.cs" />
+    <Compile Include="Configuration\Sections\TokensConfigurationElementCollection.cs" />
+    <Compile Include="Configuration\Sections\TokensConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\SettingsConfigurationElement.cs" />
+    <Compile Include="Configuration\Sections\SettingsConfigurationElementCollection.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Exceptions\ExceptionUtility.cs" />
+    <Compile Include="Exceptions\GeneralException.cs" />
+    <Compile Include="InitializationException.cs" />
+    <Compile Include="Exceptions\ISerializableException.cs" />
+    <Compile Include="Exceptions\ReasonedException.cs" />
+    <Compile Include="InitializationOptions.cs" />
+    <Compile Include="Providers\Configuration\WebUrlConfigStore.cs" />
+    <Compile Include="Providers\DataAccess\AppDataAccess.cs" />
+    <Compile Include="Providers\Logging\AppLogger.cs" />
+    <Compile Include="Providers\Logging\ConsoleLoggingProvider.cs" />
+    <Compile Include="Logging\IAppLogger.cs" />
+    <Compile Include="Logging\ILoggingProvider.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Providers\Configuration\XmlFileConfigStore.cs" />
+    <Compile Include="Providers\Logging\TextFileLoggingProvider.cs" />
+    <Compile Include="Services\Hosting\ComposableBehaviorAttribute.cs" />
+    <Compile Include="Services\Hosting\ComposableServiceHost.cs" />
+    <Compile Include="Services\Hosting\ComposableServiceHostFactory.cs" />
+    <Compile Include="Services\Hosting\ComposableSingletonServiceHost.cs" />
+    <Compile Include="Providers\Composition\Composer.cs" />
+    <Compile Include="Services\Hosting\CompositionInstanceProvider.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="Configuration\IAppConfig.cs" />
+    <Compile Include="Composition\IComposer.cs" />
+    <Compile Include="CodeGen\InterfaceImplementationGenerator.cs" />
+    <Compile Include="Services\IServiceMetadata.cs" />
+    <Compile Include="Services\ObjectDescription.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ServiceMetadataAttribute.cs" />
+    <Compile Include="Services\Client\ServiceClientConfiguration.cs" />
+    <Compile Include="Services\Client\ServiceClientUtility.cs" />
+    <Compile Include="Services\ServiceConfiguration.cs" />
+    <Compile Include="Web\Bundling\BundleConfiguration.cs" />
+    <Compile Include="Web\Bundling\IBundleConfigurator.cs" />
+    <Compile Include="Web\Bundling\BundleItem.cs" />
+    <Compile Include="Web\Bundling\BundleItemType.cs" />
+    <Compile Include="Web\Bundling\BundleConfiguratorFactory.cs" />
+    <Compile Include="Web\Composition\ComposableControllerFactory.cs" />
+    <Compile Include="Web\Composition\ComposableDependencyResolver.cs" />
+    <Compile Include="Web\Security\IWebAuthenticator.cs" />
+    <Compile Include="Web\Security\WebAuthenticationFilterAttributeBase.cs" />
+    <Compile Include="Web\Security\WebAuthenticationResult.cs" />
+    <Compile Include="Web\Security\WebAuthenticatorFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\BuildAndPack.proj" />
+    <None Include="Properties\Package.nuspec" />
+    <None Include="Properties\AssemblyKey.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
