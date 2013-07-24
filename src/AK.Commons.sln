@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.Commons", "AK.Commons\AK.Commons.csproj", "{70898BAD-DF90-41B3-AF9B-072B2F674EB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9EEF78D8-1A5A-459A-8D12-146761ACFD54}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{BD464772-C92C-48FF-82C8-1A3CA90F01CB}"
+	ProjectSection(SolutionItems) = preProject
+		BuildAndPack.proj = BuildAndPack.proj
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70898BAD-DF90-41B3-AF9B-072B2F674EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70898BAD-DF90-41B3-AF9B-072B2F674EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70898BAD-DF90-41B3-AF9B-072B2F674EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70898BAD-DF90-41B3-AF9B-072B2F674EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
