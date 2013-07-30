@@ -1,59 +1,162 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>Aashish Koirala's Commons Library by aashishkoirala</title>
-  </head>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="Aashish Koirala Commons Library">
+		<title>Commons Library | Aashish Koirala</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>		
+		<script type="text/javascript" src="http://aashishkoirala.github.io/scripts/bootstrap.min.js"></script>
+		<script type="text/javascript" src="http://aashishkoirala.github.io/scripts/angular.min.js"></script>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		   google.load("feeds", "1")
+		</script>		
+		<script type="text/javascript" src="scripts/main.js"></script>
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
 
-  <body>
-    <div id="container">
-      <div class="inner">
+	<body>
+		<div class="container">
+			<header>
+			    <div class="row">
+			        <div class="span4">
+			            <a href="http://aashishkoirala.github.io" style="text-decoration: none">
+			                <h2 class="muted" style="font-weight: normal" title="Aashish Koirala">aashish<b>koirala</b></h2>
+			            </a>
+			        </div>
+			        <div class="span8 pull-right" style="padding-top: 10px">
+			            <div class="pull-right">
+			                <a title="Aashish Koirala on GitHub" href="http://github.com/aashishkoirala"><img alt="Aashish Koirala on GitHub" src="http://aashishkoirala.github.io/images/github.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			                <a title="Aashish Koirala on Twitter" href="http://twitter.com/aashishkoirala"><img alt="Aashish Koirala on Twitter" src="http://aashishkoirala.github.io/images/twitter.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			                <a title="Aashish Koirala on LinkedIn" href="http://www.linkedin.com/in/aashishkoirala"><img alt="Aashish Koirala on LinkedIn" src="http://aashishkoirala.github.io/images/linkedin.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+							<a title="Go to My Blog" href="http://aashishkoirala.wordpress.com"><img alt="Go to My Blog" src="https://secure.gravatar.com/avatar/100f2280ecbf23438d15db61ad1e3ba0" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			            </div>
+			        </div>
+			    </div>
+			</header>
 
-        <header>
-          <h1>Aashish Koirala's Commons Library</h1>
-          <h2>Aashish Koirala's Commons Library</h2>
-        </header>
+		    <section id="main-content">
+		        <div class="well">
+		            <h3>Commons Library</h3>
+		            <ul>
+		                <li><a href="http://github.com/aashishkoirala/commons">Go to GitHub Repository</a></li>
+		                <li><a href="https://www.nuget.org/packages/AK.Commons/">Go to NuGet Page</a></li>
+		            </ul>
+                    <br/>
+                    This is a general purpose commons library that I've built mostly for my own use within applications that I build (but obviously you are welcome to use it should you choose). The goal is to have an easy-to-use and uniform yet modular and pluggable facility to handle common cross-cutting concerns in my applications, thereby freeing me up to focus on the actual application concerns and hopefully making it easier and faster to build them.
+		        </div>
+				<div class="row">
+					<div class="tabbable span3">
+						<ul class="nav nav-pills nav-stacked">
+						  <li class="active"><a href="#installation_tab" data-toggle="tab">Installation</a></li>
+						  <li><a href="#initialization_tab" data-toggle="tab">Initialization</a></li>
+						  <li><a href="#ioc_tab" data-toggle="tab">IoC/DI/Composition</a></li>
+						  <li><a href="#configuration_tab" data-toggle="tab">Configuration</a></li>
+						  <li><a href="#logging_tab" data-toggle="tab">Logging</a></li>
+						  <li><a href="#exceptions_tab" data-toggle="tab">Exceptions</a></li>
+						  <li><a href="#dataaccess_tab" data-toggle="tab">Data Access</a></li>
+						  <li><a href="#web_bundling_tab" data-toggle="tab">Web Bundling</a></li>
+						  <li><a href="#web_sso_tab" data-toggle="tab">Web SSO</a></li>
+						</ul>
+					</div>
+					<div class="tab-content span9">
+						<div class="tab-pane active" id="installation_tab">
+							<h5>Installation</h5>
+							The library is available in <a href="https://www.nuget.org/packages/AK.Commons/">Nuget</a> as <b>AK.Commons</b>.
+							You can use the Package Manager Console in Visual Studio and run <code>Install-Package AK.Commons</code>.
+						</div>
+						<div class="tab-pane" id="initialization_tab">
+							<h5>Initialization</h5>
+							Initialization is handled by the <code>AK.Commons.AppEnvironment</code> class.
+							You initialize the application environment by calling <code>AppEnvironment.Initialize()</code> in your application startup routine.
+							This is the <code>Main</code> method for Windows applications and <code>Application_Start</code> for web applications.
+							The call requires a unique name for the application that is used, among other things, to retrieve application-specific settings
+							from the configuration store (see Configuration), and also to include in log entries.<br/><br/>
+							The second parameter is an instance of <code>InitializationOptions</code> that is optional, but you're almost always better off
+							providing it. It lets you specify whether logging is enabled (if you don't enable logging and use components that expect a logger,
+							they will fail). It also lets you specify what Configuration Store you want to use for the application (see Configuration).<br/><br/>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/aashishkoirala/Commons/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/aashishkoirala/Commons/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/aashishkoirala/Commons" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+							The following example initializes an application using configuration store settings from a mapped EXE config file.<br/><br/>
+							
+							<blockquote><pre>
+var config = ConfigurationManager.OpenMappedExeConfiguration(...);
 
-        <hr>
+AppEnvironment.Initialize("MyApplication",
+	new InitializationOptions
+	{
+		EnableLogging = true
+		ConfigStore = config.GetConfigStore(),
+	});</pre></blockquote>						
+						</div>
+						<div class="tab-pane" id="ioc_tab">
+							<h5>IoC/DI/Composition</h5>
+							The library uses MEF for IoC/DI and composition. You can build composable modules using regular MEF exports and imports.
+							You can access the composition interface using <code>AppEnvironment.Composer</code>. If you're inside a composable class,
+							you can also just put a MEF import for the <code>AK.Commons.Composition.IComposer</code> interface.<br/><br/>
+							It consists of a number of wrapper methods around MEF's own resolve-type methods. The scope of DLLs that are loaded in
+							by the composer are: the entry assembly, the executing assembly, and assemblies in the location defined by the configuration
+							key <code>ak.commons.composition.modulesdirectories</code>. For more on configuration keys, see Configuration.<br/><br/>
+							The composition container is built by the call to <code>AppEnvironment.Initialize()</code>.<br/><br/>
+							An example of the simplest variant of dependency resolution is:<br/><br/>
+							<blockquote><pre>
+var myInstance = AppEnvironment.Composer.Resolve&lt;MyInterface&gt;();</pre></blockquote>
+							Or, if you're inside a composable class:<br/><br/>
+							<blockquote><pre>
+public class MyClass
+{
+	[Import] private IComposer composer;
+	
+	public void MyMethod()
+	{
+		var myInstance = this.composer.Resolve&lt;MyInterface&gt;();
+	}
+}</pre></blockquote>
+						</div>
+						<div class="tab-pane" id="configuration_tab">
+							<h5>Configuration</h5>
+							Test
+						</div>
+						<div class="tab-pane" id="logging_tab">
+							<h5>Logging</h5>
+							Test
+						</div>
+						<div class="tab-pane" id="exceptions_tab">
+							<h5>Exceptions</h5>
+							Test
+						</div>
+						<div class="tab-pane" id="dataaccess_tab">
+							<h5>Data Access</h5>
+							Test
+						</div>
+						<div class="tab-pane" id="web_bundling_tab">
+							<h5>Web Bundling</h5>
+							Test
+						</div>
+						<div class="tab-pane" id="web_sso_tab">
+							<h5>Web SSO</h5>
+							Test
+						</div>
+					</div>
+				</div>
+		    </section>
+		</div>
 
-        <section id="main_content">
-          <h1>
-<a name="commons" class="anchor" href="#commons"><span class="octicon octicon-link"></span></a>Commons</h1>
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+			try {
+			  var pageTracker = _gat._getTracker("aashishkoirala_commons");
+			pageTracker._trackPageview();
+			} catch(err) {}
+		</script>
 
-<p>Aashish Koirala's Commons Library</p>
-        </section>
-
-        <footer>
-          Aashish Koirala's Commons Library is maintained by <a href="https://github.com/aashishkoirala">aashishkoirala</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("aashishkoirala_commons");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
-      </div>
-    </div>
-  </body>
+	</body>
 </html>
