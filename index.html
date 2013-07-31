@@ -120,27 +120,138 @@ public class MyClass
 						</div>
 						<div class="tab-pane" id="configuration_tab">
 							<h5>Configuration</h5>
-							Test
+							<h6>Configuration Store</h6>
+							A configuration store is a provider of configuration data. The library expects configuration data in .NET's configuration XML format (see more on the format below).
+							You can implement the <code>AK.Commons.Configuration.IConfigStore</code> interface to implement your own configuration store. There are two built-in ones,
+							<code>XmlFileConfigStore</code> and <code>WebUrlConfigStore</code> that use a local XML file or a web URL that serves up the configuration XML. The configuration
+							store itself can be configured through a bootstrap configuration file. For example, the following <code>App.config</code> file tells the application to use the given
+							XML file as the configuration store.<br/><br/>
+							<blockquote><pre>
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="ak.commons.configuration.store" 
+     type="AK.Commons.Configuration.Sections.StoreConfigurationSection, AK.Commons" /&gt;    
+  &lt;/configSections&gt;
+  &lt;ak.commons.configuration.store&gt;
+    &lt;store type="AK.Commons.Providers.Configuration.XmlFileConfigStore, AK.Commons"&gt;
+      &lt;properties&gt;
+        &lt;property name="FilePath" value="~/AppConfig.xml" /&gt;
+      &lt;/properties&gt;
+    &lt;/store&gt;
+  &lt;/ak.commons.configuration.store&gt;
+&lt;/configuration&gt;</pre></blockquote>
+
+							The <code>ak.commons.configuration.store</code> section in the above example could be changed to the following to use a web URL instead:<br/><br/>
+							<blockquote><pre>
+  &lt;ak.commons.configuration.store&gt;
+    &lt;store type="AK.Commons.Providers.Configuration.WebUrlConfigStore, AK.Commons"&gt;
+      &lt;properties&gt;
+        &lt;property name="Url" value="http://myconfig/AppConfig.xml" /&gt;
+        &lt;property name="Authenticate" value="true" /&gt;
+        &lt;property name="UseDefaultCredentials" value="false" /&gt;
+        &lt;property name="UserName" value="myuser" /&gt;
+        &lt;property name="Password" value="mypwd" /&gt;
+        &lt;property name="Domain" value="mydomain" /&gt;
+      &lt;/properties&gt;
+    &lt;/store&gt;
+  &lt;/ak.commons.configuration.store&gt;</pre></blockquote>							
+							<h6>Configuration Store Format</h6>
+							The configuration store follows the .NET configuration XML format with a special configuration section holding all the configuration information.
+							The section allows for configuration settings for multiple applications to be stored, as well as on the global level.
+							There is also the concept of tokens (more on that later).
+							Each configuration entry is defined as a property name (i.e. configuration key), the data type and the value.
+							You can use data structures as property values as well.<br/><br/>
+							Here is an example that tries to illustrate all these features:<br/><br/>
+							<blockquote><pre>
+&lt;configuration&gt;
+ &lt;configSections&gt;
+  &lt;section name="ak.commons.configuration" type="AK.Commons.Configuration.Sections.ApplicationSettingsConfigurationSection, AK.Commons"/&gt;
+ &lt;/configSections&gt;
+ &lt;ak.commons.configuration&gt;
+  &lt;applicationSettings&gt;
+   &lt;application&gt;
+    &lt;settings&gt;
+	 &lt;setting name="setting1" type="System.String" value="globalvalue" /&gt;
+	 &lt;setting name="tokenizedSetting" type="System.String" value="Abc{LocalPath}" /&gt;
+    &lt;/settings&gt;
+    &lt;tokens /&gt;
+   &lt;/application&gt;
+   &lt;application name="Application1"&gt;
+	&lt;settings&gt;
+	 &lt;setting name="setting1" type="System.String" value="app1value" /&gt;
+	 &lt;setting name="setting2" type="System.String" value="Microsoft" /&gt;     
+	 &lt;setting name="setting3" type="System.Boolean" value="False" /&gt;
+	 &lt;setting name="setting4" type="MyType" value=""&gt;
+	  &lt;properties&gt;
+	   &lt;property name="Prop1" value="20" /&gt;
+	   &lt;property name="Prop2" value="Sample" /&gt;
+	   &lt;/properties&gt;
+	   &lt;constructorParameters&gt;
+	   &lt;param name="param1" Value="abc" /&gt;
+	   &lt;/constructorParameters&gt;
+	  &lt;/setting&gt;
+	&lt;/settings&gt;
+    &lt;tokens&gt;
+	 &lt;token name="LocalPath" value="C:\Scratch" /&gt;
+	&lt;/tokens&gt;
+   &lt;/application&gt;
+   &lt;application name="Application2"&gt;
+	  ...
+   &lt;/application&gt;
+  &lt;/applicationSettings&gt;
+ &lt;/ak.commons.configuration&gt;
+&lt;/configuration&gt;</pre></blockquote>
+							The global node is the <code>application</code> node without a name. It is required, but can have an empty <code>settings</code> and <code>tokens</code> sub-nodes.
+							When you initialize the application using an application name (see Initialization), the global configuration is combined with the application specific configuration
+							for that application and loaded into memory. For entries with the same configuration keys, global ones are overridden by application specific ones. You can also
+							define tokenized configuration values as shown above and then define different token replacement values for different applications. This comes in handy where a certain
+							setting is pretty much the same across multiple applications, with only one identifier or something of the sort that is different.<br/>
+							<h6>Configuration Interface</h6>
+							Once you've "configured the configuration store" with the call to <code>AppEnvironment.Initialize()</code> (see Initialization), you can access the configuration
+							interface using <code>AppEnvironment.Config</code> or with a MEF imported instance of <code>AK.Commons.Configuration.IAppConfig</code> (similar to how <code>IComposer</code>
+							and <code>IAppLogger</code> work). The interface has dictionary-type <code>Get</code> and <code>TryGet</code> methods you can use to access the setting values.<br/><br/>
+							Here are a few examples (assuming we have a <code>IAppConfig</code> instance).<br/><br/>
+							<blockquote><pre>
+var mySetting1 = config.Get&lt;string&gt;("MySetting1"); // throws if setting is not present.
+var mySetting2 = config.Get&lt;MyType&gt;("MySetting2"); // throws if setting is not present
+var mySetting3 = config.Get("MySetting3", "DefaultValue");
+var success = config.TryGet("MySetting4", out mySetting4); // you get the idea.</pre></blockquote>
 						</div>
 						<div class="tab-pane" id="logging_tab">
 							<h5>Logging</h5>
-							Test
+							You access the logging interface much like the composition or configuration interface, i.e. through <code>AppEnvironment.Logger</code>
+							or a MEF imported instance of <code>AK.Commons.Logging.IAppLogger</code>.<br/><br/>
+							All logging is asynchronous and can use multiple providers. Everytime you log something, it goes into a queue which is processed by another
+							thread that removes items from the queue and sends it to all configured, enabled logging providers. The logging interface has methods corresponding
+							to each verbosity level (i.e. Verbose, Information, Warning and Error - in decreasing order of verbosity). You can set the verbosity level
+							using the configuration key <code>ak.commons.logging.loglevel</code> and setting the values to "Verbose", "Information" and so on.<br/><br/>
+							Each provider may have its own settings that need to be specified.<br/><br/>
+							Simple examples:<br/><br/>
+							<blockquote><pre>
+logger.Information("This thing happened.");
+logger.Error(exception);
+logger.Warning("Oops!");</pre></blockquote>
 						</div>
 						<div class="tab-pane" id="exceptions_tab">
 							<h5>Exceptions</h5>
-							Test
+							The library provides a base class called <code>AK.Commons.Exceptions.ReasonedException</code> that has some formatting features for logging, and lets you specify
+							error codes as an Enum - and also lets you override a method to provide friendly descriptions for each enumerated value.<br/><br/>
+							Besides this, there are some convenience extension methods for <code>System.Exception</code> that let you wrap an exception as a given <code>ReasonedException</code>,
+							log it using <code>IAppLogger</code> and/or re-throw it.<br/><br/>
+							If you import the namespace <code>AK.Commons.Exceptions</code>, you should be able to use these methods: <code>Wrap</code>, <code>WrapAndLog</code>,
+							<code>WrapAndThrow</code>, <code>WrapLogAndThrow</code>, etc.
 						</div>
 						<div class="tab-pane" id="dataaccess_tab">
 							<h5>Data Access</h5>
-							Test
+							For data access, there are constructs to support the Unit-of-Work and Repository patterns. <i>Still working on this section...</i>
 						</div>
 						<div class="tab-pane" id="web_bundling_tab">
 							<h5>Web Bundling</h5>
-							Test
+							Still working on this section...
 						</div>
 						<div class="tab-pane" id="web_sso_tab">
 							<h5>Web SSO</h5>
-							Test
+							Still working on this section...
 						</div>
 					</div>
 				</div>
