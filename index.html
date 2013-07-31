@@ -61,8 +61,7 @@
 						  <li><a href="#logging_tab" data-toggle="tab">Logging</a></li>
 						  <li><a href="#exceptions_tab" data-toggle="tab">Exceptions</a></li>
 						  <li><a href="#dataaccess_tab" data-toggle="tab">Data Access</a></li>
-						  <li><a href="#web_bundling_tab" data-toggle="tab">Web Bundling</a></li>
-						  <li><a href="#web_sso_tab" data-toggle="tab">Web SSO</a></li>
+						  <li><a href="#web_tab" data-toggle="tab">Web</a></li>
 						</ul>
 					</div>
 					<div class="tab-content span9">
@@ -117,6 +116,9 @@ public class MyClass
 		var myInstance = this.composer.Resolve&lt;MyInterface&gt;();
 	}
 }</pre></blockquote>
+						<br/>
+						For web applications, you can use <code>AK.Commons.Web.Composition.ComposableDependencyResolver</code> and <code>AK.Commons.Web.Composition.ComposableControllerFactory</code>
+						to create composition-enabled MVC and Web API controllers.<br/><br/>
 						</div>
 						<div class="tab-pane" id="configuration_tab">
 							<h5>Configuration</h5>
@@ -231,6 +233,7 @@ var success = config.TryGet("MySetting4", out mySetting4); // you get the idea.<
 logger.Information("This thing happened.");
 logger.Error(exception);
 logger.Warning("Oops!");</pre></blockquote>
+							There are two built-in providers: one that logs to the console and a very simple one that logs to text files.
 						</div>
 						<div class="tab-pane" id="exceptions_tab">
 							<h5>Exceptions</h5>
@@ -243,15 +246,79 @@ logger.Warning("Oops!");</pre></blockquote>
 						</div>
 						<div class="tab-pane" id="dataaccess_tab">
 							<h5>Data Access</h5>
-							For data access, there are constructs to support the Unit-of-Work and Repository patterns. <i>Still working on this section...</i>
+							For data access, there are constructs to support the Unit-of-Work and Repository patterns. You get to the data access interface using
+							<code>AppEnvironment.DataAccess</code> or a MEF imported instance of <code>AK.Commons.DataAccess.IAppDataAccess</code>.
+							You can use it as a dictionary to look up a unit-of-work factory by name or get the default nameless one using the <code>Default</code> property.
+							Once you have one, you can use the <code>Create</code> method on the factory to get an instance of <code>IUnitOfWork</code> - which is an <code>IDisposable</code>.
+							You can therefore put your data access code inside a <code>using</code> block and let the library and the provider handle sessions, transactions, etc.<br/><br/>
+							Once you have entities, you can build repositories by implementing <code>IRepository</code> or better yet extending <code>RepositoryBase</code>.
+							Once inside a unit-of-work, you have to assign that unit to each repository you want to take part in the transaction using the <code>UnitOfWork</code> property on
+							the repository. Here's an example (assuming we have an <code>IAppDataAccess</code> instance):<br/><br/>
+							<blockquote><pre>
+using (var unit = appDataAccess["myDb"].Create())	
+{
+	myRepo1.UnitOfWork = unit;
+	myRepo2.UnitOfWork = unit;
+	
+	// Perform operations on myRepo1 and myRepo2.
+	
+	unit.Commit();
+}
+							</pre></blockquote>
+							This can get a bit repetitive if you have multiple repositories - so there's an extension method that lets you write the above code as:<br/><br/>
+							<blockquote><pre>
+appDataAccess["myDb"]
+	.With(myRepo1, myRepo2, myRepo3)
+	.Execute(unit =>
+	{
+		// Do stuff.
+	});</pre></blockquote>
+							The <code>IRepository</code> interface has query and update type methods that lend themselves well to LINQ and <code>IQueryable</code>.
+							The idea is to be able to abstract different types of data access providers well.<br/><br/>						
+							You configure data access providers as follows:<br/><br/>
+							<blockquote><pre>
+&lt;setting name="ak.commons.dataaccess.uowfactory.<i>factoryName</i>.provider" type="System.String" value="<i>providerName</i>" /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.<i>factoryName</i>.provider_specific_setting1" ... /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.<i>factoryName</i>.provider_specific_setting2" ... /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.<i>factoryName</i>.provider_specific_setting3" ... /&gt;</pre></blockquote>
+							Here's an example of a factory called "myDb" (as shown in the code examples above) that uses the Fluent NHibernate provider
+							(part of the Commons Providers library).
+							<blockquote><pre>
+&lt;setting name="ak.commons.dataaccess.uowfactory.myDb.provider"
+ type="System.String" value="FluentNHibernate" /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.myDb.connection.provider"
+ type="System.String" value="NHibernate.Connection.DriverConnectionProvider" /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.myDb.connection.driver_class"
+ type="System.String" value="NHibernate.Driver.SqlClientDriver" /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.myDb.connection.connection_string"
+ type="System.String" value="Server=(local);Database=MyDb;Integrated Security=SSPI;" /&gt;
+&lt;setting name="ak.commons.dataaccess.uowfactory.myDb.dialect"
+ type="System.String" value="NHibernate.Dialect.MsSql2005Dialect" /&gt;</pre></blockquote>
+							You can build your own factory provider by implementing <code>IUnitOfWorkFactory</code> and using it to provide your own implementation of <code>IUnitOfWork</code>.
+							You need to decorate the class with <code>ProviderMetadataAttribute</code> to give it a unique provider name (such as "FluentNHibernate" in the above example).<br/><br/>
+							Each repository gets the following methods:
+							<ul>
+								<li>Get</li>
+								<li>GetAll</li>
+								<li>GetFor</li>
+								<li>GetList</li>
+								<li>Save</li>
+								<li>Delete</li>
+							</ul>
+							Ideally, one should be able to get by with just these methods used within units of work as required.<br/><br/>
 						</div>
-						<div class="tab-pane" id="web_bundling_tab">
-							<h5>Web Bundling</h5>
-							Still working on this section...
-						</div>
-						<div class="tab-pane" id="web_sso_tab">
-							<h5>Web SSO</h5>
-							Still working on this section...
+						<div class="tab-pane" id="web_tab">
+							<h5>Web</h5>
+							Currently, there's only 2 web features (other than composition, see Composition/DI for that): an interface to support script and CSS bundling,
+							and a light web authentication interface that can be used for SSO.<br/><br/>
+							To access the bundle configurator, use <code>AppEnvironment.BundleConfigurator</code> or a MEF imported instance of <code>AK.Commons.Web.Bundling.IBundleConfigurator.</code>
+							You can use it to configure bundling based on a JSON string. You can implement the <code>IBundleConfigurator</code> interface to build your own provider,
+							and decorate it with <code>ProviderMetadataAttribute</code> to give it a unique provider name, much like you do with data access.<br/><br/>
+							In your application, you decide which provider to use through the <code>ak.commons.web.bundling.provider</code> configuration key.<br/><br/>
+							For SSO, there's the <code>AK.Commons.Web.Security.IWebAuthenticator</code> interface - pretty much the same pattern as bundle configurator - you pick
+							which one to use through the <code>ak.commons.web.security.webauth.provider</code> configuration key, and so on.<br/><br/>
+							There's also the <code>WebAuthenticationFilterAttributeBase</code> class (wow, that's a mouthful). You can extend this class to implement your own
+							authentication filter - there's different overrides that represent different hookup points in the SSO authentication process.
 						</div>
 					</div>
 				</div>
