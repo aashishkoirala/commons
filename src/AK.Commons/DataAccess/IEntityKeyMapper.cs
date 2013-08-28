@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************************************************************
- * AK.Commons.Logging.ILoggingProvider
+ * AK.Commons.DataAccess.IEntityKeyMapper
  * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
@@ -19,31 +19,18 @@
  * 
  *******************************************************************************************************************************/
 
-namespace AK.Commons.Logging
+namespace AK.Commons.DataAccess
 {
     /// <summary>
-    /// Interface to be implemented by logging providers. Creating a logging provider involves implementing this interface,
-    /// making it a MEF export for this interface; and then registering it using configuration so that IAppLogger then
-    /// picks it up while logging.
+    /// Implement this interface to put in logic to map entities to their keys.
     /// </summary>
-    public interface ILoggingProvider
+    /// <author>Aashish Koirala</author>
+    public interface IEntityKeyMapper
     {
         /// <summary>
-        /// Gets whether this provider is enabled.
+        /// This is where all the mappings against the given IEntityKeyMap should be done.
         /// </summary>
-        bool Enabled { get; }
-
-        /// <summary>
-        /// Logs the given entry.
-        /// </summary>
-        /// <param name="logEntry">LogEntry object with information about the event to log.</param>
-        void Log(LogEntry logEntry);
-
-        /// <summary>
-        /// Gets whether this provider is enabled for the given logging level.
-        /// </summary>
-        /// <param name="logLevel">Logging level.</param>
-        /// <returns>Enabled?</returns>
-        bool IsEnabledForLevel(LogLevel logLevel);
+        /// <param name="map">IEntityKeyMap instance.</param>
+        void Map(IEntityKeyMap map);
     }
 }

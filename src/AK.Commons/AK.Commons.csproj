@@ -40,6 +40,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Web" />
@@ -57,6 +58,8 @@
     <Compile Include="Configuration\AppConfigException.cs" />
     <Compile Include="DataAccess\DataAccessException.cs" />
     <Compile Include="DataAccess\IAppDataAccess.cs" />
+    <Compile Include="DataAccess\IEntityKeyMap.cs" />
+    <Compile Include="DataAccess\IEntityKeyMapper.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
     <Compile Include="DataAccess\IUnitOfWork.cs" />
     <Compile Include="DataAccess\IUnitOfWorkFactory.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="DataAccess\RepositoryBase.cs" />
     <Compile Include="Composition\ProviderMetadataAttribute.cs" />
     <Compile Include="DataAccess\UnitOfWorkUtility.cs" />
+    <Compile Include="Logging\LoggingProviderBase.cs" />
     <Compile Include="Providers\Configuration\AppConfig.cs" />
     <Compile Include="AppEnvironment.cs" />
     <Compile Include="Configuration\ConfigStoreUtility.cs" />
@@ -96,6 +100,7 @@
     <Compile Include="Logging\ILoggingProvider.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Providers\Configuration\XmlFileConfigStore.cs" />
+    <Compile Include="Providers\Logging\EmailLoggingProvider.cs" />
     <Compile Include="Providers\Logging\TextFileLoggingProvider.cs" />
     <Compile Include="Services\Hosting\ComposableBehaviorAttribute.cs" />
     <Compile Include="Services\Hosting\ComposableServiceHost.cs" />

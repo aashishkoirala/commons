@@ -19,6 +19,8 @@
  * 
  *******************************************************************************************************************************/
 
+using System.Runtime.Serialization;
+
 namespace AK.Commons
 {
     /// <summary>
@@ -42,12 +44,14 @@ namespace AK.Commons
         /// <summary>
         /// Logging levels.
         /// </summary>
+        [DataContract]
         public enum LogLevel
         {
-            Verbose,
-            Information,
-            Warning,
-            Error
+            [EnumMember] Diagnostic,
+            [EnumMember] Verbose,
+            [EnumMember] Information,
+            [EnumMember] Warning,
+            [EnumMember] Error
         }
     }
 

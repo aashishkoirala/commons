@@ -47,6 +47,12 @@ namespace AK.Commons.Logging
         void Log(LogLevel logLevel, string message);
 
         /// <summary>
+        /// Logs the given message with Diagnostic level.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
+        void Diagnostic(string message);
+
+        /// <summary>
         /// Logs the given message with Verbose level.
         /// </summary>
         /// <param name="message">Message to log.</param>

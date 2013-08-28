@@ -26,7 +26,6 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using System.Web;
-using AK.Commons.Configuration;
 using AK.Commons.Logging;
 
 #endregion
@@ -42,22 +41,17 @@ namespace AK.Commons.Providers.Logging
     ///  2) Support date-stamp in file names.
     /// </todo>
     [Export(typeof (ILoggingProvider))]
-    public class TextFileLoggingProvider : ILoggingProvider
+    public class TextFileLoggingProvider : LoggingProviderBase
     {
         #region Constants/Fields
 
-        private const string ConfigKeyEnabled = "ak.commons.providers.logging.textfileloggingprovider.enabled";
-        private const string ConfigKeyMessageFormat =
-            "ak.commons.providers.logging.textfileloggingprovider.messageformat";
-        private const string ConfigKeyFilePath = "ak.commons.providers.logging.textfileloggingprovider.filepath";
-        private const string ConfigKeyFileNameFormat = 
-            "ak.commons.providers.logging.textfileloggingprovider.filenameformat";
+        private const string ConfigKeyFormatMessageFormat = "{0}.messageformat";
+        private const string ConfigKeyFormatFilePath = "{0}.filepath";
+        private const string ConfigKeyFormatFileNameFormat = "{0}.filenameformat";
         private const string DefaultFileNameFormat = "ApplicationLog.log";
 
         private string fileName;
         private readonly HttpContext httpContext;
-
-        [Import] private Lazy<IAppConfig> appConfig;
 
         #endregion
 
@@ -73,23 +67,31 @@ namespace AK.Commons.Providers.Logging
 
         #region Properties (Private)
 
-        private IAppConfig AppConfig {get { return this.appConfig.Value; }}
-
-        private bool Enabled
+        private string ConfigKeyMessageFormat
         {
-            get { return this.AppConfig.Get(ConfigKeyEnabled, false); }
+            get { return string.Format(ConfigKeyFormatMessageFormat, this.ConfigKeyRoot); }
+        }
+
+        private string ConfigKeyFilePath
+        {
+            get { return string.Format(ConfigKeyFormatFilePath, this.ConfigKeyRoot); }
+        }
+
+        private string ConfigKeyFileNameFormat
+        {
+            get { return string.Format(ConfigKeyFormatFileNameFormat, this.ConfigKeyRoot); }
         }
 
         private string MessageFormat
         { 
-            get { return this.AppConfig.Get(ConfigKeyMessageFormat, string.Empty); }
+            get { return this.AppConfig.Get(this.ConfigKeyMessageFormat, string.Empty); }
         }
 
         private string FilePath
         {
             get
             {
-                var filePath = this.AppConfig.Get(ConfigKeyFilePath, string.Empty);
+                var filePath = this.AppConfig.Get(this.ConfigKeyFilePath, string.Empty);
                 if (string.IsNullOrWhiteSpace(filePath))
                     filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -102,7 +104,7 @@ namespace AK.Commons.Providers.Logging
 
         private string FileNameFormat
         {
-            get { return this.AppConfig.Get(ConfigKeyFileNameFormat, DefaultFileNameFormat); }
+            get { return this.AppConfig.Get(this.ConfigKeyFileNameFormat, DefaultFileNameFormat); }
         }
 
         private string FileName
@@ -123,12 +125,10 @@ namespace AK.Commons.Providers.Logging
 
         #endregion
 
-        #region Methods (ILoggingProvider)
+        #region Methods (LoggingProviderBase)
 
-        public void Log(LogEntry logEntry)
+        protected override void LogEntry(LogEntry logEntry)
         {            
-            if (!this.Enabled) return;
-
             var message = string.IsNullOrWhiteSpace(this.MessageFormat) ? 
                 logEntry.ToString() : logEntry.ToFormattedString(this.MessageFormat);
             message += Environment.NewLine;

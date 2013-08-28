@@ -108,6 +108,11 @@ namespace AK.Commons.Providers.Logging
             this.Log(GetCallingMethod(), logLevel, message);
         }
 
+        public void Diagnostic(string message)
+        {
+            this.Log(GetCallingMethod(), LogLevel.Diagnostic, message);
+        }
+
         public void Verbose(string message)
         {
             this.Log(GetCallingMethod(), LogLevel.Verbose, message);
@@ -164,6 +169,9 @@ namespace AK.Commons.Providers.Logging
         {
             switch (logLevel)
             {
+                case LogLevel.Diagnostic:
+                    return new[] {LogLevel.Diagnostic, LogLevel.Verbose, LogLevel.Information, LogLevel.Warning, LogLevel.Error };
+
                 case LogLevel.Verbose:
                     return new[] {LogLevel.Verbose, LogLevel.Information, LogLevel.Warning, LogLevel.Error};
 
@@ -210,7 +218,15 @@ namespace AK.Commons.Providers.Logging
             var signaled = logProcessingStopEvent.WaitOne(100);
             if (signaled) return false;
 
-            loggingProviders.ForEach(x => x.Log(logEntry));
+            // ReSharper disable EmptyGeneralCatchClause
+            //
+            try
+            {
+                loggingProviders.ForEach(x => x.Log(logEntry));
+            }
+            catch {}
+            //
+            // ReSharper restore EmptyGeneralCatchClause
 
             return true;
         }

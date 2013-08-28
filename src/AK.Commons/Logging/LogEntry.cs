@@ -20,6 +20,7 @@
  *******************************************************************************************************************************/
 
 using System;
+using System.Runtime.Serialization;
 
 namespace AK.Commons.Logging
 {
@@ -29,32 +30,38 @@ namespace AK.Commons.Logging
     /// the implementations of ILoggingProvider to actually log the thing.
     /// </summary>
     /// <author>Aashish Koirala</author>
+    [DataContract]
     public class LogEntry
     {
         /// <summary>
         /// Application name (as passed in to AppEnvironment.Initialize).
         /// </summary>
+        [DataMember]
         public string ApplicationName { get; set; }
 
         /// <summary>
         /// Instance of creation for this log entry.
         /// </summary>
+        [DataMember]
         public DateTime TimeStamp { get; set; }
 
         /// <summary>
         /// Logging level.
         /// </summary>
+        [DataMember]
         public LogLevel LogLevel { get; set; }
 
         /// <summary>
         /// The method that asked for this entry to be logged (in
         /// Type.Method format).
         /// </summary>
+        [DataMember]
         public string CallingMethod { get; set; }
 
         /// <summary>
         /// The actual message or description.
         /// </summary>
+        [DataMember]
         public string Message { get; set; }
 
         /// <summary>
