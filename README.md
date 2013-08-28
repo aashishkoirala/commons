@@ -9,6 +9,14 @@ For more detailed information and documentation, please visit the GitHub page fo
 
 This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. The web components need System.Web.Mvc and System.Net.Http - but I believe you can do without them if you don't use the web components. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
 
+###### Updates (v0.1.2)
+This release consists of the following enhancements:
+
++ Introduced a logging provider base class that combines common properties such as Enabled and the new LogLevelFilter property. This supports the new feature of log-level filtering (i.e. you can now specify whether a logging provider is invoked only for certain types of log levels).
++ Added a new log level "Diagnostic" which is the most verbose. 
++ Logging now never throws due to a silent catch that was necessary to keep from the logging thread crashing if a provider threw an exception.
++ Added a built-in e-mail logging provider. 
++ Added a couple of interfaces to data access to support mapping entities to their keys.
 
 ###### Initial Release (v0.1.0)
 This version consists of the following "facilities":
