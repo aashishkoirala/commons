@@ -23,7 +23,6 @@
 
 using System;
 using System.ComponentModel.Composition;
-using AK.Commons.Configuration;
 using AK.Commons.Logging;
 
 #endregion
@@ -35,40 +34,32 @@ namespace AK.Commons.Providers.Logging
     /// </summary>
     /// <author>Aashish Koirala</author>
     [Export(typeof (ILoggingProvider))]
-    public class ConsoleLoggingProvider : ILoggingProvider
+    public class ConsoleLoggingProvider : LoggingProviderBase
     {
         #region Constants/Fields
 
-        private const string ConfigKeyEnabled = "ak.commons.providers.logging.consoleloggingprovider.enabled";
-        private const string ConfigKeyMessageFormat =
-            "ak.commons.providers.logging.consoleloggingprovider.messageformat";
-
-        [Import] private Lazy<IAppConfig> appConfig;
+        private const string ConfigKeyFormatMessageFormat = "{0}.messageformat";
 
         #endregion
 
         #region Properties (Private)
 
-        private IAppConfig AppConfig {get { return this.appConfig.Value; }}
-
-        private bool Enabled
+        private string ConfigKeyMessageFormat
         {
-            get { return this.AppConfig.Get(ConfigKeyEnabled, false); }
+            get { return string.Format(ConfigKeyFormatMessageFormat, this.ConfigKeyRoot); }
         }
 
         private string MessageFormat
         { 
-            get { return this.AppConfig.Get(ConfigKeyMessageFormat, string.Empty); }
+            get { return this.AppConfig.Get(this.ConfigKeyMessageFormat, string.Empty); }
         }
 
         #endregion
 
-        #region Methods (ILoggingProvider)
+        #region Methods (LoggingProviderBase)
 
-        public void Log(LogEntry logEntry)
+        protected override void LogEntry(LogEntry logEntry)
         {
-            if (!this.Enabled) return;
-
             var message = string.IsNullOrWhiteSpace(this.MessageFormat) ? 
                 logEntry.ToString() : logEntry.ToFormattedString(this.MessageFormat);
 

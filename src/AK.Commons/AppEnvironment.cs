@@ -344,6 +344,11 @@ namespace AK.Commons
                 }
             }
 
+            public void Diagnostic(string message)
+            {
+                this.Log(LogLevel.Diagnostic, message);
+            }
+
             public void Verbose(string message)
             {
                 this.Log(LogLevel.Verbose, message);

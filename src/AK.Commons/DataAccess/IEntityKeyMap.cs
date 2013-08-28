@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************************************************************
- * AK.Commons.Logging.ILoggingProvider
+ * AK.Commons.DataAccess.IEntityKeyMap
  * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
@@ -19,31 +19,28 @@
  * 
  *******************************************************************************************************************************/
 
-namespace AK.Commons.Logging
+#region Namespace Imports
+
+using System;
+using System.Linq.Expressions;
+
+#endregion
+
+namespace AK.Commons.DataAccess
 {
     /// <summary>
-    /// Interface to be implemented by logging providers. Creating a logging provider involves implementing this interface,
-    /// making it a MEF export for this interface; and then registering it using configuration so that IAppLogger then
-    /// picks it up while logging.
+    /// Implement this to provide a entity-key map store that consists of information
+    /// on entities and their keys.
     /// </summary>
-    public interface ILoggingProvider
+    /// <author>Aashish Koirala</author>
+    public interface IEntityKeyMap
     {
         /// <summary>
-        /// Gets whether this provider is enabled.
+        /// Maps the given entity to its key property.
         /// </summary>
-        bool Enabled { get; }
-
-        /// <summary>
-        /// Logs the given entry.
-        /// </summary>
-        /// <param name="logEntry">LogEntry object with information about the event to log.</param>
-        void Log(LogEntry logEntry);
-
-        /// <summary>
-        /// Gets whether this provider is enabled for the given logging level.
-        /// </summary>
-        /// <param name="logLevel">Logging level.</param>
-        /// <returns>Enabled?</returns>
-        bool IsEnabledForLevel(LogLevel logLevel);
+        /// <typeparam name="TEntity">Entity type.</typeparam>
+        /// <typeparam name="TKey">Key type.</typeparam>
+        /// <param name="expression">Key expression.</param>
+        void Map<TEntity, TKey>(Expression<Func<TEntity, TKey>> expression);
     }
 }
