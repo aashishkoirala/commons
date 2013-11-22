@@ -78,7 +78,7 @@ namespace AK.Commons.Providers.Composition
                 .Select(x => new AssemblyCatalog(x))
                 .ToList();
 
-            this.Container = new CompositionContainer(new AggregateCatalog(assemblyCatalogs));
+            this.Container = new CompositionContainer(new AggregateCatalog(assemblyCatalogs), true);
         }
 
         #region Methods (Resolve*)

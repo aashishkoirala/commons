@@ -3,7 +3,7 @@
   <metadata>
     <id>AK.Commons</id>
     <title>Aashish Koirala's Commons Library</title>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <authors>Aashish Koirala</authors>
     <owners>Aashish Koirala</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,11 +15,7 @@
       The package is free to download and use. The source code is open and provided under the GPL license.
     </description>
     <releaseNotes>
-      Introduced a logging provider base class that combines common properties such as Enabled and the new LogLevelFilter property. This supports the new feature of log-level filtering (i.e. you can now specify whether a logging provider is invoked only for certain types of log levels).
-      Added a new log level "Diagnostic" which is the most verbose. 
-      Logging now never throws due to a silent catch that was necessary to keep from the logging thread crashing if a provider threw an exception.
-      Added a built-in e-mail logging provider. 
-      Added a couple of interfaces to data access to support mapping entities to their keys.
+      Modified Composer to use thread-safe MEF CompositionContainer.
     </releaseNotes>
     <copyright>Copyright © 2013 Aashish Koirala</copyright>
     <projectUrl>http://aashishkoirala.github.io/commons/</projectUrl>
