@@ -108,6 +108,8 @@
     <Compile Include="Services\Hosting\ComposableSingletonServiceHost.cs" />
     <Compile Include="Providers\Composition\Composer.cs" />
     <Compile Include="Services\Hosting\CompositionInstanceProvider.cs" />
+    <Compile Include="Threading\LockedObject.cs" />
+    <Compile Include="Threading\LockedValue.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Configuration\IAppConfig.cs" />
     <Compile Include="Composition\IComposer.cs" />
