@@ -103,25 +103,14 @@
     <Compile Include="Providers\Configuration\XmlFileConfigStore.cs" />
     <Compile Include="Providers\Logging\EmailLoggingProvider.cs" />
     <Compile Include="Providers\Logging\TextFileLoggingProvider.cs" />
-    <Compile Include="Services\Hosting\ComposableBehaviorAttribute.cs" />
-    <Compile Include="Services\Hosting\ComposableServiceHost.cs" />
-    <Compile Include="Services\Hosting\ComposableServiceHostFactory.cs" />
-    <Compile Include="Services\Hosting\ComposableSingletonServiceHost.cs" />
     <Compile Include="Providers\Composition\Composer.cs" />
-    <Compile Include="Services\Hosting\CompositionInstanceProvider.cs" />
     <Compile Include="Threading\LockedObject.cs" />
     <Compile Include="Threading\LockedValue.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Configuration\IAppConfig.cs" />
     <Compile Include="Composition\IComposer.cs" />
     <Compile Include="CodeGen\InterfaceImplementationGenerator.cs" />
-    <Compile Include="Services\IServiceMetadata.cs" />
-    <Compile Include="Services\ObjectDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ServiceMetadataAttribute.cs" />
-    <Compile Include="Services\Client\ServiceClientConfiguration.cs" />
-    <Compile Include="Services\Client\ServiceClientUtility.cs" />
-    <Compile Include="Services\ServiceConfiguration.cs" />
     <Compile Include="Web\Bundling\BundleConfiguration.cs" />
     <Compile Include="Web\Bundling\IBundleConfigurator.cs" />
     <Compile Include="Web\Bundling\BundleItem.cs" />
@@ -141,6 +130,9 @@
     <None Include="Properties\BuildAndPack.proj" />
     <None Include="Properties\Package.nuspec" />
     <None Include="Properties\AssemblyKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

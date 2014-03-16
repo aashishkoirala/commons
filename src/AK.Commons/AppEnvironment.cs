@@ -33,7 +33,6 @@ using AK.Commons.Providers.Composition;
 using AK.Commons.Providers.Configuration;
 using AK.Commons.Providers.DataAccess;
 using AK.Commons.Providers.Logging;
-using AK.Commons.Services.Client;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
@@ -297,12 +296,7 @@ namespace AK.Commons
 
         private static void GenerateServiceClients(IComposer composerImpl)
         {
-            var serviceClientAssembly = ServiceClientUtility.GenerateServiceClients();
-            var aggregateCatalog = composerImpl.Container.Catalog as AggregateCatalog;
-
-            Debug.Assert(aggregateCatalog != null);
-
-            aggregateCatalog.Catalogs.Add(new AssemblyCatalog(serviceClientAssembly));
+            // TODO: Do!
         }
 
         private static void ValidateInitializationOptions(InitializationOptions initializationOptions)
