@@ -21,9 +21,6 @@
 
 #region Namespace Imports
 
-using System;
-using System.IO;
-using System.Reflection;
 using AK.Commons.Composition;
 using AK.Commons.Configuration;
 using AK.Commons.DataAccess;
@@ -33,10 +30,12 @@ using AK.Commons.Providers.Composition;
 using AK.Commons.Providers.Configuration;
 using AK.Commons.Providers.DataAccess;
 using AK.Commons.Providers.Logging;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Diagnostics;
+using AK.Commons.Services;
 using AK.Commons.Web.Bundling;
+using System;
+using System.ComponentModel.Composition;
+using System.IO;
+using System.Reflection;
 
 #endregion
 
@@ -253,7 +252,7 @@ namespace AK.Commons
                 var dataAccessImpl = new AppDataAccess(composerImpl, configImpl, loggerImpl);
 
                 if (initializationOptions.GenerateServiceClients)
-                    GenerateServiceClients(composerImpl);
+                    ServiceCallerComposer.Compose(composerImpl.Container, composerImpl.Assemblies);
 
                 // TODO: Other initialization stuff goes here.
 
@@ -294,11 +293,6 @@ namespace AK.Commons
 
         #region Methods (Private)
 
-        private static void GenerateServiceClients(IComposer composerImpl)
-        {
-            // TODO: Do!
-        }
-
         private static void ValidateInitializationOptions(InitializationOptions initializationOptions)
         {
             if (initializationOptions.ConfigStore == null &&
@@ -318,7 +312,7 @@ namespace AK.Commons
         private class InitializationLogger : IAppLogger
         {
             private readonly string logFile;
-            private static readonly object LogFileLock = new object();
+            private static readonly object logFileLock = new object();
 
             public InitializationLogger()
             {
@@ -332,7 +326,7 @@ namespace AK.Commons
                 var entry = string.Format("{0} | {1} | {2}{3}",
                     DateTime.Now, logLevel, message, Environment.NewLine);
 
-                lock (LogFileLock)
+                lock (logFileLock)
                 {
                     File.AppendAllText(this.logFile, entry);
                 }

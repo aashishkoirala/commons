@@ -45,6 +45,7 @@ namespace AK.Commons.Providers.Composition
         private const string ModulesDirectoriesConfigKey = "ak.commons.composition.modulesdirectories";
 
         public CompositionContainer Container { get; private set; }
+        public Assembly[] Assemblies { get; private set; }
 
         public Composer(IAppConfig config, IAppLogger logger)
         {
@@ -79,6 +80,7 @@ namespace AK.Commons.Providers.Composition
                 .ToList();
 
             this.Container = new CompositionContainer(new AggregateCatalog(assemblyCatalogs), true);
+            this.Assemblies = assemblyCatalogs.Select(x => x.Assembly).ToArray();
         }
 
         #region Methods (Resolve*)

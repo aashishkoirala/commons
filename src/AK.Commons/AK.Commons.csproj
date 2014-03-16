@@ -104,6 +104,11 @@
     <Compile Include="Providers\Logging\EmailLoggingProvider.cs" />
     <Compile Include="Providers\Logging\TextFileLoggingProvider.cs" />
     <Compile Include="Providers\Composition\Composer.cs" />
+    <Compile Include="Services\EndpointFactory.cs" />
+    <Compile Include="Services\IServiceCaller.cs" />
+    <Compile Include="Services\ServiceCaller.cs" />
+    <Compile Include="Services\ServiceCallerComposer.cs" />
+    <Compile Include="Services\ServiceCallerFactory.cs" />
     <Compile Include="Threading\LockedObject.cs" />
     <Compile Include="Threading\LockedValue.cs" />
     <Compile Include="Utility.cs" />
@@ -131,9 +136,7 @@
     <None Include="Properties\Package.nuspec" />
     <None Include="Properties\AssemblyKey.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
