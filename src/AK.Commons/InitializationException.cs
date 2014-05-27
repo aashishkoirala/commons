@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.InitializationException
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -41,12 +41,5 @@ namespace AK.Commons
         public InitializationException(InitializationExceptionReason reason, string message, Exception innerException) : base(reason, message, innerException) {}
         
         protected InitializationException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-
-        protected override string GetReasonDescription(InitializationExceptionReason reason)
-        {
-            // TODO: Implement.
-
-            return reason.ToString();
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.AppEnvironment
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -24,14 +24,11 @@
 using AK.Commons.Composition;
 using AK.Commons.Configuration;
 using AK.Commons.DataAccess;
+using AK.Commons.DomainDriven;
 using AK.Commons.Exceptions;
 using AK.Commons.Logging;
-using AK.Commons.Providers.Composition;
-using AK.Commons.Providers.Configuration;
-using AK.Commons.Providers.DataAccess;
-using AK.Commons.Providers.Logging;
+using AK.Commons.Security;
 using AK.Commons.Services;
-using AK.Commons.Web.Bundling;
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -48,6 +45,13 @@ namespace AK.Commons
     /// <author>Aashish Koirala</author>
     public static class AppEnvironment
     {
+        #region Constants
+
+        private const string ConfigKeyEntityIdGeneratorFormat = "ak.commons.domaindriven.entityidgenerator.{0}";
+        private const string ConfigKeyEntityIdGeneratorProviderFormat = ConfigKeyEntityIdGeneratorFormat + ".provider";
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -166,21 +170,40 @@ namespace AK.Commons
         }
 
         /// <summary>
-        /// The application level web-based bundling configurator. If possible, use an "Import"ed instance of
-        /// IBundleConfigurator rather than accessing this directly.
+        /// The application level entity Id generator provider for use in domain entities.
+        /// If possible, use an "Import"ed instance rather than accessing this directly.
         /// </summary>
         /// <exception cref="InitializationException">
         /// If you access this before calling Initialize.
         /// </exception>
-        [Export(typeof (IBundleConfigurator))]
-        public static IBundleConfigurator BundleConfigurator
+        [Export(typeof (IProviderSource<IEntityIdGeneratorProvider>))]
+        public static IProviderSource<IEntityIdGeneratorProvider> EntityIdGenerator
         {
             get
             {
                 if (!IsInitialized)
                     throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
 
-                return BundleConfiguratorFactory.Create(composer, config);
+                return new ProviderSource<IEntityIdGeneratorProvider>(
+                    ConfigKeyEntityIdGeneratorFormat, ConfigKeyEntityIdGeneratorProviderFormat, config, composer);
+            }
+        }
+
+        /// <summary>
+        /// The instance of ICertificateProvider that is defined in the configuration. Use this to access
+        /// an X.509 certificate for security/cryptography purposes.
+        /// </summary>
+        /// <exception cref="InitializationException">
+        /// If you access this before calling Initialize.
+        /// </exception>
+        public static ICertificateProvider CertificateProvider
+        {
+            get
+            {
+                if (!IsInitialized)
+                    throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
+
+                return CertificateProviderFactory.Create(composer, config);
             }
         }
 

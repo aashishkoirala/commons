@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.ServiceModel.Description;
 
 #endregion
@@ -54,7 +55,7 @@ namespace AK.Commons.Services
         /// </summary>
         /// <typeparam name="TChannel">WCF channel contract type.</typeparam>
         /// <returns>IServiceCaller[T] instance.</returns>
-        public static IServiceCaller<TChannel> Create<TChannel>()
+        public static IServiceCaller<TChannel> Create<TChannel>(EndpointAddress endpointAddress = null)
         {
             ServiceCaller caller;
             if (serviceCallerMap.TryGetValue(typeof (TChannel), out caller))
@@ -64,10 +65,19 @@ namespace AK.Commons.Services
             {
                 if (serviceCallerMap.TryGetValue(typeof (TChannel), out caller))
                     return (IServiceCaller<TChannel>) caller;
-
-                caller = ServiceEndpointAccessor == null
-                             ? new ServiceCaller<TChannel>()
-                             : new ServiceCaller<TChannel>(ServiceEndpointAccessor(typeof (TChannel)));
+                
+                if (ServiceEndpointAccessor != null)
+                {
+                    var serviceEndpoint = ServiceEndpointAccessor(typeof (TChannel));
+                    if (endpointAddress != null) serviceEndpoint.Address = endpointAddress;
+                    caller = new ServiceCaller<TChannel>(serviceEndpoint);
+                }
+                else
+                {
+                    caller = endpointAddress == null
+                                 ? new ServiceCaller<TChannel>()
+                                 : new ServiceCaller<TChannel>(endpointAddress);                    
+                }
 
                 serviceCallerMap[typeof (TChannel)] = caller;
             }

@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Composition.ComposerException
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -21,7 +21,6 @@
 
 #region Namespace Imports
 
-using System.Collections.Generic;
 using AK.Commons.Exceptions;
 using System;
 using System.Runtime.Serialization;
@@ -36,26 +35,11 @@ namespace AK.Commons.Composition
     /// <author>Aashish Koirala</author>
     public class ComposerException : ReasonedException<ComposerExceptionReason>
     {
-        private static readonly IDictionary<ComposerExceptionReason, string> ReasonDescriptions =
-            new Dictionary<ComposerExceptionReason, string>
-            {
-                { ComposerExceptionReason.NoExports, "No matching exports were found."},
-                { ComposerExceptionReason.TooManyExports, "Too many matching exports were found."}
-            };
-
         public ComposerException(ComposerExceptionReason reason) : base(reason) {}
         public ComposerException(ComposerExceptionReason reason, string message) : base(reason, message) {}
         public ComposerException(ComposerExceptionReason reason, Exception innerException) : base(reason, innerException) {}
         public ComposerException(ComposerExceptionReason reason, string message, Exception innerException) : base(reason, message, innerException) {}
         
         protected ComposerException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-
-        protected override string GetReasonDescription(ComposerExceptionReason reason)
-        {
-            string description;
-            if (!ReasonDescriptions.TryGetValue(reason, out description)) description = reason.ToString();
-
-            return description;
-        }
     }
 }

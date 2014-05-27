@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Providers.Configuration.WebUrlConfigStore
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -23,7 +23,6 @@
 
 using System.Net;
 using AK.Commons.Configuration;
-using System.IO;
 
 #endregion
 

@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Perhaps
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -447,6 +447,37 @@ namespace AK.Commons
             return string.IsNullOrWhiteSpace(input)
                        ? Perhaps<DateTime>.NotThere
                        : Perhaps<DateTime>.Try((out DateTime d) => DateTime.TryParse(input, out d));
+        }
+
+        /// <summary>
+        /// Tries to parse the given string as a TimeSpan.
+        /// </summary>
+        /// <param name="input">String to parse.</param>
+        /// <returns>
+        /// Parsed value wrapped as Perhaps if parsed, or "NotThere" if 
+        /// input was empty or could not be parsed.
+        /// </returns>
+        public static Perhaps<TimeSpan> ParseTimeSpan(this string input)
+        {
+            return string.IsNullOrWhiteSpace(input)
+                       ? Perhaps<TimeSpan>.NotThere
+                       : Perhaps<TimeSpan>.Try((out TimeSpan d) => TimeSpan.TryParse(input, out d));
+        }
+
+        /// <summary>
+        /// Tries to parse the given string as an enum.
+        /// </summary>
+        /// <param name="input">String to parse.</param>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <returns>
+        /// Parsed value wrapped as Perhaps if parsed, or "NotThere" if 
+        /// input was empty or could not be parsed.
+        /// </returns>
+        public static Perhaps<TEnum> ParseEnum<TEnum>(this string input) where TEnum : struct
+        {
+            return string.IsNullOrWhiteSpace(input)
+                       ? Perhaps<TEnum>.NotThere
+                       : Perhaps<TEnum>.Try((out TEnum d) => Enum.TryParse(input, out d));
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.DataAccess.IRepository
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -19,80 +19,40 @@
  * 
  *******************************************************************************************************************************/
 
-#region Namespace Imports
-
-using System;
-using System.Collections.Generic;
 using System.Linq;
-
-#endregion
 
 namespace AK.Commons.DataAccess
 {
     /// <summary>
-    /// Represents a generic repository that can be attached to a IUnitOfWork instance.
+    /// Represents a generic repository.
     /// </summary>
     /// <author>Aashish Koirala</author>
     public interface IRepository
     {
-        /// <summary>
-        /// Gets or sets the unit-of-work instance.
-        /// </summary>
-        IUnitOfWork UnitOfWork { get; set; }
     }
 
     /// <summary>
-    /// Represents a entity-specific repository.
+    /// Represents a repository for the given type.
     /// </summary>
-    /// <typeparam name="TEntity">Entity type.</typeparam>
-    /// <typeparam name="TKey">Entity key type.</typeparam>
-    public interface IRepository<TEntity, in TKey> : IRepository
+    /// <typeparam name="T">Type of entity this repository houses.</typeparam>
+    /// <author>Aashish Koirala</author>
+    public interface IRepository<T> : IRepository where T : class
     {
         /// <summary>
-        /// Gets the entity by key.
+        /// A LINQ-queryable interface for data access to the repository.
         /// </summary>
-        /// <param name="key">Key.</param>
-        /// <returns>Entity.</returns>
-        TEntity Get(TKey key);
-        
-        /// <summary>
-        /// Gets a list of all entities.
-        /// </summary>
-        /// <returns>List of all entities.</returns>
-        IEnumerable<TEntity> GetAll();
+        IQueryable<T> Query { get; }
 
         /// <summary>
-        /// Executes the given query and returns the specified type of result.
+        /// Saves the given entity to the repository.
         /// </summary>
-        /// <typeparam name="TResult">Result type.</typeparam>
-        /// <param name="queryBuilder">Query builder function.</param>
-        /// <returns>Result object.</returns>
-        TResult GetFor<TResult>(Func<IQueryable<TEntity>, TResult> queryBuilder);
+        /// <param name="thing">Entity to save.</param>
+        void Save(T thing);
 
         /// <summary>
-        /// Executes the given query that returns a list of the entity.
+        /// Deletes the geiven entity from the repository.
         /// </summary>
-        /// <param name="queryBuilder">Query builder function that returns a list of the entity.</param>
-        /// <returns>List of entities.</returns>
-        IEnumerable<TEntity> GetList(Func<IQueryable<TEntity>, IEnumerable<TEntity>> queryBuilder);
-
-        /// <summary>
-        /// Saves the given entity to the database.
-        /// </summary>
-        /// <param name="entity">Entity object.</param>
-        void Save(TEntity entity);
-
-        /// <summary>
-        /// Replaces the list of entities in the database with the given list of entities.
-        /// </summary>
-        /// <param name="entityList">List of entities.</param>
-        /// <param name="equalityComparer">Predicate that defines how to tell if two entities are the same row.</param>
-        void Replace(IEnumerable<TEntity> entityList, Func<TEntity, TEntity, bool> equalityComparer);
-
-        /// <summary>
-        /// Deletes the given entity from the database.
-        /// </summary>
-        /// <param name="entity">Entity object.</param>
-        void Delete(TEntity entity);
+        /// <param name="thing">Entity to delete.</param>
+        void Delete(T thing);
     }
 }

@@ -120,9 +120,7 @@ namespace AK.Commons.Services
 
         private static void GenerateExport(Type contractType, CodeTypeDeclaration typeDeclaration)
         {
-            var contractTypeName = contractType.FullName != null
-                                       ? contractType.FullName.Replace('.', '_')
-                                       : Guid.NewGuid().ToString().Replace('-', '_');
+            var contractTypeName = contractType.FullName.Replace('.', '_');
 
             var propertyName = string.Format("Exported_{0}_{1}", contractTypeName,
                                              Guid.NewGuid().ToString().Replace('-', '_'));

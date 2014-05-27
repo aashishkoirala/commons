@@ -43,6 +43,7 @@ namespace AK.Commons.Services
     internal class ServiceCaller<TChannel> : ServiceCaller, IServiceCaller<TChannel>
     {
         private readonly ServiceEndpoint endpoint;
+        private readonly EndpointAddress endpointAddress;
 
         public ServiceCaller() {}
 
@@ -51,16 +52,28 @@ namespace AK.Commons.Services
             this.endpoint = endpoint;
         }
 
+        public ServiceCaller(EndpointAddress endpointAddress)
+        {
+            this.endpointAddress = endpointAddress;
+        }
+
         public void Call(Action<TChannel> action)
         {
             var channelFactory = this.endpoint != null
                                      ? new ChannelFactory<TChannel>(this.endpoint)
                                      : new ChannelFactory<TChannel>();
 
+            if (this.endpointAddress != null) channelFactory.Endpoint.Address = endpointAddress;
+
             var channel = channelFactory.CreateChannel();
             try
             {
                 action(channel);
+            }
+            catch
+            {
+                channelFactory.Abort();
+                throw;
             }
             finally
             {
@@ -78,6 +91,11 @@ namespace AK.Commons.Services
             try
             {
                 return action(channel);
+            }
+            catch
+            {
+                channelFactory.Abort();
+                throw;
             }
             finally
             {
