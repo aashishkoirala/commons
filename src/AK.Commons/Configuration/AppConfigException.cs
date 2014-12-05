@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Configuration.AppConfigException
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -21,7 +21,6 @@
 
 #region Namespace Imports
 
-using System.Collections.Generic;
 using AK.Commons.Exceptions;
 using System;
 using System.Runtime.Serialization;
@@ -36,29 +35,11 @@ namespace AK.Commons.Configuration
     /// <author>Aashish Koirala</author>
     public class AppConfigException : ReasonedException<AppConfigExceptionReason>
     {
-        private static readonly IDictionary<AppConfigExceptionReason, string> ReasonDescriptions =
-            new Dictionary<AppConfigExceptionReason, string>
-            {
-                { AppConfigExceptionReason.ConfigKeyNotFound, "The configuration setting was not found."},
-                { AppConfigExceptionReason.ConfigKeyOfWrongType, "The configuration setting was of a different type than requested."},
-                { AppConfigExceptionReason.ConfigStoreError, "There was an error communicating with the configuration store."},
-                { AppConfigExceptionReason.CouldNotInitializeConfiguration, "Could not initialize the configuration system."},
-                { AppConfigExceptionReason.CouldNotRetrieveConfiguration, "There was an error trying to retrieve configuration settings."}
-            };
-
         public AppConfigException(AppConfigExceptionReason reason) : base(reason) { }
         public AppConfigException(AppConfigExceptionReason reason, string message) : base(reason, message) {}
         public AppConfigException(AppConfigExceptionReason reason, Exception innerException) : base(reason, innerException) {}
         public AppConfigException(AppConfigExceptionReason reason, string message, Exception innerException) : base(reason, message, innerException) {}
 
-        protected AppConfigException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-        
-        protected override string GetReasonDescription(AppConfigExceptionReason reason)
-        {
-            string description;
-            if (!ReasonDescriptions.TryGetValue(reason, out description)) description = reason.ToString();
-
-            return description;
-        }
+        protected AppConfigException(SerializationInfo info, StreamingContext context) : base(info, context) {}        
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Exceptions.ReasonedException
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -148,12 +148,16 @@ namespace AK.Commons.Exceptions
         #region Methods (Protected Abstract/Virtual)
 
         /// <summary>
-        /// This method must be overridden by child classes to map reason codes
-        /// to their human-readable descriptions.
+        /// This method can be be overridden by child classes to map reason codes
+        /// to their human-readable descriptions; if not overriden, this will look for
+        /// EnumDescription on the enum instead.
         /// </summary>
-        /// <param name="reason">Reason code.</param>
+        /// <param name="reasonToDescribe">Reason code.</param>
         /// <returns>Human-readable description.</returns>
-        protected abstract string GetReasonDescription(TReasonEnum reason);
+        protected virtual string GetReasonDescription(TReasonEnum reasonToDescribe)
+        {
+            return reasonToDescribe.Describe();
+        }
 
         /// <summary>
         /// Override this method to provide any extra information during serialization.

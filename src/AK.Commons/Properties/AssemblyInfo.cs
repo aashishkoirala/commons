@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons: AssemblyInfo
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -31,9 +31,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Retail")]
 [assembly: AssemblyCompany("Aashish Koirala")]
 [assembly: AssemblyProduct("Aashish Koirala's Commons Library")]
-[assembly: AssemblyCopyright("Copyright © 2013 Aashish Koirala")]
+[assembly: AssemblyCopyright("Copyright © 2013-2014 Aashish Koirala")]
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("2a21398b-f124-4cce-9242-be2c7ace4842")]
-[assembly: AssemblyVersion("0.1.3.0")]
-[assembly: AssemblyFileVersion("0.1.3.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

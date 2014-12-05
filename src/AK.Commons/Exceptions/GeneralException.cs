@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Exceptions.GeneralException
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -34,17 +34,10 @@ namespace AK.Commons.Exceptions
     /// <author>Aashish Koirala</author>
     public class GeneralException : ReasonedException<GeneralExceptionReason>
     {
-        private const string GeneralErrorMessage = "An error has occurred.";
-
         public GeneralException() : base(GeneralExceptionReason.General) {}
         public GeneralException(string message) : base(GeneralExceptionReason.General, message) { }
         public GeneralException(Exception innerException) : base(GeneralExceptionReason.General, innerException) { }
         public GeneralException(string message, Exception innerException) : base(GeneralExceptionReason.General, message, innerException) { }
         protected GeneralException(SerializationInfo info, StreamingContext context) : base(info, context) {}
-
-        protected override string GetReasonDescription(GeneralExceptionReason reason)
-        {
-            return GeneralErrorMessage;
-        }
     }
 }

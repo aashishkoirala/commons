@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Utility
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -82,6 +82,18 @@ namespace AK.Commons
                 action(item.Key, item.Value);
         }
 
+        public static void AssignTo<T>(this IReadOnlyCollection<T> source, ICollection<T> target)
+        {
+            target.Clear();
+            source.Copy(target);
+        }
+
+        public static void Copy<T>(this IReadOnlyCollection<T> source, ICollection<T> target)
+        {
+            foreach (var item in source)
+                target.Add(item);
+        }
+
         #endregion
 
         #region Object Serialization/Formatting
@@ -116,6 +128,87 @@ namespace AK.Commons
             }
 
             return returnValue;
+        }
+
+        #endregion
+
+        #region Enum Operations
+
+        /// <summary>
+        /// Returns a friendly human readable description for the given Enum. The information is extracted from
+        /// the EnumDescriptionAttribute applied to the Enum member that corresponds to this Enum's value. If
+        /// the attribute is not applied, this method reverts to Enum.ToString().
+        /// </summary>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="enumObject">Enum instance.</param>
+        /// <returns>Friendly human readable description.</returns>
+        public static string Describe<TEnum>(this TEnum enumObject)
+        {
+            var enumType = typeof (TEnum);
+            if (enumType == typeof (Enum)) enumType = enumObject.GetType();
+
+            var memberName = Enum.GetName(enumType, enumObject);
+            var fieldInfo = enumType.GetField(memberName);
+            var descriptionAttribute = fieldInfo.GetCustomAttribute<EnumDescriptionAttribute>();
+            return descriptionAttribute == null ? enumObject.ToString() : descriptionAttribute.Description;
+        }
+
+        #endregion
+
+        #region Uri Operations
+
+        /// <summary>
+        /// Appends the given path to the given Uri.
+        /// </summary>
+        /// <param name="uri">Uri to append to.</param>
+        /// <param name="pathToAppend">Path to append.</param>
+        /// <returns>Resulting Uri after appending.</returns>
+        public static Uri Append(this Uri uri, string pathToAppend)
+        {
+            var uriString = uri.ToString();
+            if (!uriString.EndsWith("/")) uriString += "/";
+            if (pathToAppend.StartsWith("/")) pathToAppend = pathToAppend.Substring(1);
+
+            return new Uri(uriString + pathToAppend);
+        }
+
+        /// <summary>
+        /// Extracts just the scheme and host portion of the given Uri.
+        /// </summary>
+        /// <param name="uri">Uri to extract from.</param>
+        /// <returns>Uri representing just the scheme and host.</returns>
+        public static Uri GetSchemeAndHost(this Uri uri)
+        {
+            var scheme = uri.Scheme + ":";
+            var host = uri.Host;
+
+            if (scheme != "urn" && scheme != "mailto") scheme += "//";
+            if (!uri.IsDefaultPort) host += ":" + uri.Port;
+
+            return new Uri(scheme + host);
+        }
+
+        /// <summary>
+        /// Removes the QueryString portion from the given Uri.
+        /// </summary>
+        /// <param name="uri">Uri to remove from.</param>
+        /// <returns>Uri with QueryString removed.</returns>
+        public static Uri RemoveQueryString(this Uri uri)
+        {
+            return new Uri(uri.GetSchemeAndHost(), uri.AbsolutePath);
+        }
+
+        /// <summary>
+        /// Removes the scheme from the given Uri and returns the resulting string representation.
+        /// </summary>
+        /// <param name="uri">Uri to remove scheme from.</param>
+        /// <returns>String representatino of Uri without scheme.</returns>
+        public static string RemoveScheme(this Uri uri)
+        {
+            var host = uri.Host;
+            if (!uri.IsDefaultPort) host += ":" + uri.Port;
+
+            return host + uri.PathAndQuery;
         }
 
         #endregion

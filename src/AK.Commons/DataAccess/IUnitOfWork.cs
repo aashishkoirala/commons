@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.DataAccess.IUnitOfWork
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -19,12 +19,7 @@
  * 
  *******************************************************************************************************************************/
 
-#region Namespace Imports
-
 using System;
-using System.Linq;
-
-#endregion
 
 namespace AK.Commons.DataAccess
 {
@@ -41,52 +36,25 @@ namespace AK.Commons.DataAccess
         bool IsValid { get; }
 
         /// <summary>
-        /// Gets the given entity by key.
+        /// Gets a repository for the given type scoped within this unit of work.
         /// </summary>
-        /// <typeparam name="TEntity">Entity type.</typeparam>
-        /// <typeparam name="TKey">Key type.</typeparam>
-        /// <param name="key">Key value.</param>
-        /// <returns>Entity instance.</returns>
-        TEntity Get<TEntity, TKey>(TKey key);
+        /// <typeparam name="T">Entity type.</typeparam>
+        /// <returns>Repository instance.</returns>
+        IRepository<T> Repository<T>() where T : class;
 
         /// <summary>
-        /// Gets a queryable that can be used to query off the entity set.
+        /// Gets the next value in the given sequence.
         /// </summary>
-        /// <typeparam name="TEntity">Entity type.</typeparam>
-        /// <returns>Queryable of entity.</returns>
-        IQueryable<TEntity> Query<TEntity>();
+        /// <typeparam name="T">Type of value.</typeparam>
+        /// <param name="sequenceContainerName">Name of sequence container.</param>
+        /// <param name="sequenceName">Name of sequence.</param>
+        /// <param name="incrementBy">How much to increment the value by.</param>
+        /// <returns>Next value in sequence.</returns>
+        T NextValueInSequence<T>(string sequenceContainerName, string sequenceName, T incrementBy);
 
         /// <summary>
-        /// Runs a query that is built using the provided query builder.
-        /// </summary>
-        /// <typeparam name="TEntity">Entity type.</typeparam>
-        /// <typeparam name="TResult">Type of result of the query.</typeparam>
-        /// <param name="queryBuilder">Query builder function.</param>
-        /// <returns>Query result.</returns>
-        TResult Query<TEntity, TResult>(Func<IQueryable<TEntity>, TResult> queryBuilder);
-
-        /// <summary>
-        /// Saves the given entity.
-        /// </summary>
-        /// <typeparam name="TEntity">Entity type.</typeparam>
-        /// <param name="entity">Entity instance.</param>
-        void Save<TEntity>(TEntity entity);
-
-        /// <summary>
-        /// Deletes the given entity.
-        /// </summary>
-        /// <typeparam name="TEntity">Entity type.</typeparam>
-        /// <param name="entity">Entity instance.</param>
-        void Delete<TEntity>(TEntity entity);
-
-        /// <summary>
-        /// Commits the unit of work. Should set IsValid to false.
+        /// Commits the unit of work.
         /// </summary>
         void Commit();
-
-        /// <summary>
-        /// Rolls the unit of work back. Should set IsValid to false.
-        /// </summary>
-        void Rollback();
     }
 }

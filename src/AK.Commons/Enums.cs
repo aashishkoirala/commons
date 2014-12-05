@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************************************************************
  * AK.Commons.Enums
- * Copyright © 2013 Aashish Koirala <http://aashishkoirala.github.io>
+ * Copyright © 2013-2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Library (AKCL).
  *  
@@ -28,17 +28,17 @@ namespace AK.Commons
     /// </summary>
     public enum InitializationExceptionReason
     {
-        CouldNotInitialize,
-        CouldNotInitializeComposer,
-        CouldNotInitializeConfig,
-        CouldNotInitializeLogger,
-        AlreadyInitialized,
-        ApplicationNotInitialized,
-        ConfigNotEnabled,
-        LoggingNotEnabled,
-        InvalidInitializationOptions
+        [EnumDescription("Could not initialize.")] CouldNotInitialize,
+        [EnumDescription("Could not initialize Composer.")] CouldNotInitializeComposer,
+        [EnumDescription("Could not initialize Configuration.")] CouldNotInitializeConfig,
+        [EnumDescription("Could not initialize Logger.")] CouldNotInitializeLogger,
+        [EnumDescription("Application is already initialized.")] AlreadyInitialized,
+        [EnumDescription("Application has not been initialized.")] ApplicationNotInitialized,
+        [EnumDescription("Configuration has not been enabled.")] ConfigNotEnabled,
+        [EnumDescription("Logging has not been enabled.")] LoggingNotEnabled,
+        [EnumDescription("Invalid initialization options provided.")] InvalidInitializationOptions
     }
-    
+
     namespace Logging
     {
         /// <summary>
@@ -62,8 +62,8 @@ namespace AK.Commons
         /// </summary>
         public enum ComposerExceptionReason
         {
-            NoExports,
-            TooManyExports            
+            [EnumDescription("No matching exports were found.")] NoExports,
+            [EnumDescription("Too many matching exports were found.")] TooManyExports
         }
     }
 
@@ -74,11 +74,11 @@ namespace AK.Commons
         /// </summary>
         public enum AppConfigExceptionReason
         {
-            CouldNotRetrieveConfiguration,
-            CouldNotInitializeConfiguration,
-            ConfigKeyNotFound,
-            ConfigKeyOfWrongType,
-            ConfigStoreError
+            [EnumDescription("There was an error trying to retrieve configuration settings.")] CouldNotRetrieveConfiguration,
+            [EnumDescription("Could not initialize the configuration system.")] CouldNotInitializeConfiguration,
+            [EnumDescription("The configuration setting was not found.")] ConfigKeyNotFound,
+            [EnumDescription("The configuration setting was of a different type than requested.")] ConfigKeyOfWrongType,
+            [EnumDescription("There was an error communicating with the configuration store.")] ConfigStoreError
         }
     }
 
@@ -89,9 +89,9 @@ namespace AK.Commons
         /// </summary>
         public enum DataAccessExceptionReason
         {
-            InitializationFailed,
-            OperationFailed,
-            UnitOfWorkNotAssigned
+            [EnumDescription("Initialization of the data access layer failed.")] InitializationFailed,
+            [EnumDescription("A database access operation failed.")] OperationFailed,
+            [EnumDescription("The repository does not have its UnitOfWork set to a valid IUnitOfWork instance.")] UnitOfWorkNotAssigned
         }
     }
 
@@ -102,20 +102,7 @@ namespace AK.Commons
         /// </summary>
         public enum GeneralExceptionReason
         {
-            General
-        }
-    }
-
-    namespace Web.Security
-    {
-        /// <summary>
-        /// Web authentication result types.
-        /// </summary>
-        public enum WebAuthenticationResultType
-        {
-            Success,
-            Denied,
-            Error
+            [EnumDescription("An error has occurred.")] General
         }
     }
 }

@@ -7,7 +7,19 @@ In general, the library consists of interfaces or SPIs along with ways to access
 
 For more detailed information and documentation, please visit the GitHub page for this repository at [aashishkoirala.github.io/commons](http://aashishkoirala.github.io/commons). You can get this as a NuGet package [here](https://www.nuget.org/packages/AK.Commons/).
 
-This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. The web components need System.Web.Mvc and System.Net.Http - but I believe you can do without them if you don't use the web components. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
+This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
+
+###### Updates (v1.0.0)
+This major release consists of the following enhancements/changes:
+
++ Added new Aspects namespace that includes components to support aspect-oriented programming.
++ Breaking changes to the DataAccess namespace: a unit of work now spawns typed, scoped repositories that expose actual data access methods. This aligns more closely with my understanding of the unit-of-work/repository patterns.
++ Added new DomainDriven namespace that includes components to support domain-driven design (DDD).
++ Security components related to certificates and WIF.
++ Bunch of service-related components having to do with WCF as well as an OperationResult group of classes that represent values and status of results of service operations.
++ Added new Threading namespace for concurrency components- presently LockedObject and LockedValue classes that encapsulate reader/writer locking.
++ Added various constructs such as an EnumDescription attribute for enum mebmers, a Perhaps class to represent things that may not be there, an IProviderSource interface to standardize named provider interfaces, along with new Uri handling methods.
++ Removed Web components because: 1) all web-based components will be included in a new Commons Web Library, 2) I am deprecating bundling and OAuth-type security constructs that were originally defined in the Web namespace.
 
 ###### Updates (v0.1.2)
 This release consists of the following enhancements:
