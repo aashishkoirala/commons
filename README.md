@@ -9,6 +9,15 @@ For more detailed information and documentation, please visit the GitHub page fo
 
 This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
 
+###### Updates (Web v1.0.0)
+This is the first major release of the dedicated Commons Web Library, which is a separate package that includes the following features:
+
++ Constructs to support web environment initialization, as well as various utilities.
++ Packaged libraries (such as Angular, Bootstrap, SignalR, etc.) in embedded form and a way to serve them (so that you don't have to keep including the scripts in every application).
++ Static content minification components.
++ REST-based resource mapping layer for Web API that lets you route resource requests directly to services without having to write controllers.
++ Security components targeted specifically at single page applications (SPAs) that use WIF.
+
 ###### Updates (v1.0.0)
 This major release consists of the following enhancements/changes:
 
