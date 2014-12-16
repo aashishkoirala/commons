@@ -3,7 +3,7 @@
   <metadata>
     <id>AK.Commons</id>
     <title>Aashish Koirala's Commons Library</title>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Aashish Koirala</authors>
     <owners>Aashish Koirala</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,14 +15,8 @@
       The package is free to download and use. The source code is open and provided under the GPL license.
     </description>
     <releaseNotes>
-      Added new Aspects namespace that includes components to support aspect-oriented programming.
-      Breaking changes to the DataAccess namespace: a unit of work now spawns typed, scoped repositories that expose actual data access methods. This aligns more closely with my understanding of the unit-of-work/repository patterns.
-      Added new DomainDriven namespace that includes components to support domain-driven design (DDD).
-      Security components related to certificates and WIF.
-      Bunch of service-related components having to do with WCF as well as an OperationResult group of classes that represent values and status of results of service operations.
-      Added new Threading namespace for concurrency components- presently LockedObject and LockedValue classes that encapsulate reader/writer locking.
-      Added various constructs such as an EnumDescription attribute for enum mebmers, a Perhaps class to represent things that may not be there, an IProviderSource interface to standardize named provider interfaces, along with new Uri handling methods.
-      Breaking changes- removed Web components because: 1) all web-based components will be included in a new Commons Web Library, 2) I am deprecating bundling and OAuth-type security constructs that were originally defined in the Web namespace.
+      Major changes in 1.0.0.
+      On top of that, made LoginServiceHostFactory more configurable.
     </releaseNotes>
     <copyright>Copyright © 2013-2014 Aashish Koirala</copyright>
     <projectUrl>http://aashishkoirala.github.io/commons/</projectUrl>
