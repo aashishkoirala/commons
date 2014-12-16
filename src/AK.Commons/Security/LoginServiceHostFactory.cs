@@ -21,6 +21,8 @@
 
 #region Namespace Imports
 
+using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel.Security;
 using AK.Commons.Configuration;
 using AK.Commons.Services.Behaviors;
 using System;
@@ -43,7 +45,26 @@ namespace AK.Commons.Security
     /// <author>Aashish Koirala</author>
     public class LoginServiceHostFactory : ServiceHostFactory
     {
+        #region Config Key Constants
+
         private const string ConfigKeyLoginIssuerUrl = "ak.commons.security.loginissuerurl";
+
+        private const string ConfigKeyApplyRestrictIpBehavior =
+            "ak.commons.security.loginservicehostfactory.applyrestrictipbehavior";
+
+        private const string ConfigKeyDisableAddressFilter =
+            "ak.commons.security.loginservicehostfactory.disableaddressfilter";
+
+        private const string ConfigKeySkipCertificateValidation =
+            "ak.commons.security.loginservicehostfactory.skipcertificatevalidation";
+
+        private const string ConfigKeyNegotiateServiceCredential =
+            "ak.commons.security.loginservicehostfactory.negotiateservicecredential";
+
+        private const string ConfigKeyEstablishSecurityContext =
+            "ak.commons.security.loginservicehostfactory.establishsecuritycontext";
+
+        #endregion
 
         private readonly IAppConfig config = AppEnvironment.Config;
         private readonly ICertificateProvider certificateProvider = AppEnvironment.CertificateProvider;
@@ -54,15 +75,37 @@ namespace AK.Commons.Security
 
             serviceHost.Description.Behaviors.Remove<ServiceCredentials>();
 
-            serviceHost.Description.Behaviors.Add(this.GetRestrictIpServiceBehavior(baseAddresses));
+            var applyRestrictIpBehavior = this.config.Get(ConfigKeyApplyRestrictIpBehavior, true);
+            if (applyRestrictIpBehavior)
+                serviceHost.Description.Behaviors.Add(this.GetRestrictIpServiceBehavior(baseAddresses));
+
+            var disableAddressFilter = this.config.Get(ConfigKeyDisableAddressFilter, false);
+            if (disableAddressFilter) DisableAddressFilter(serviceHost.Description);
+
             serviceHost.Description.Behaviors.Add(this.GetCertificateServiceBehavior());
 
-            foreach (var endpoint in this.CreateEndpoints(baseAddresses))
-                serviceHost.Description.Endpoints.Add(endpoint);
+            var negotiateServiceCredential = this.config.Get(ConfigKeyNegotiateServiceCredential, false);
+            var establishSecurityContext = this.config.Get(ConfigKeyEstablishSecurityContext, true);
+
+            var endpoints = this.CreateEndpoints(baseAddresses, negotiateServiceCredential, establishSecurityContext);
+            foreach (var endpoint in endpoints) serviceHost.Description.Endpoints.Add(endpoint);
 
             AssignMetadataBehaviors(serviceHost.Description.Behaviors);
 
             return serviceHost;
+        }
+
+        private static void DisableAddressFilter(ServiceDescription description)
+        {
+            var serviceBehaviorAttribute = description.Behaviors.Find<ServiceBehaviorAttribute>();
+
+            if (serviceBehaviorAttribute != null)
+            {
+                serviceBehaviorAttribute.AddressFilterMode = AddressFilterMode.Any;
+                return;
+            }
+
+            description.Behaviors.Add(new ServiceBehaviorAttribute {AddressFilterMode = AddressFilterMode.Any});
         }
 
         private IServiceBehavior GetRestrictIpServiceBehavior(IEnumerable<Uri> baseAddresses)
@@ -86,15 +129,24 @@ namespace AK.Commons.Security
             var credentials = new ServiceCredentials();
             credentials.ServiceCertificate.Certificate = this.certificateProvider.Certificate;
 
+            var skipCertificateValidation = this.config.Get(ConfigKeySkipCertificateValidation, false);
+            if (!skipCertificateValidation) return credentials;
+
+            credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
+            credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+
             return credentials;
         }
 
-        private IEnumerable<ServiceEndpoint> CreateEndpoints(IEnumerable<Uri> baseAddresses)
+        private IEnumerable<ServiceEndpoint> CreateEndpoints(
+            IEnumerable<Uri> baseAddresses, bool negotiateServiceCredential, bool establishSecurityContext)
         {
             foreach (var baseAddress in baseAddresses)
             {
                 var binding = new WSHttpBinding(SecurityMode.Message);
                 binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
+                binding.Security.Message.NegotiateServiceCredential = negotiateServiceCredential;
+                binding.Security.Message.EstablishSecurityContext = establishSecurityContext;
 
                 var identity = new X509CertificateEndpointIdentity(this.certificateProvider.Certificate);
 

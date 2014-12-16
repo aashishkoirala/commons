@@ -35,9 +35,8 @@
     <Reference Include="AjaxMin">
       <HintPath>..\..\lib\AjaxMin.5.12.5436.22734\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="AK.Commons, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d1b7d9c059e7c6be, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\AK.Commons.1.0.0\lib\net45\AK.Commons.dll</HintPath>
+    <Reference Include="AK.Commons">
+      <HintPath>..\..\lib\AK.Commons.1.0.1\lib\net45\AK.Commons.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\..\lib\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -149,6 +148,7 @@
     <Compile Include="ResourceMapping\ResourceProvider.cs" />
     <Compile Include="ResourceMapping\ResourceRequest.cs" />
     <Compile Include="ResourceMapping\ResponseMessageUtility.cs" />
+    <Compile Include="Security\SecureLoginInfo.cs" />
     <Compile Include="Security\SecureSpaController.cs" />
     <Compile Include="Security\SecureSpaUtility.cs" />
     <Compile Include="WebEnvironment.cs" />
