@@ -3,7 +3,7 @@
   <metadata>
     <id>AK.Commons</id>
     <title>Aashish Koirala's Commons Library</title>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>Aashish Koirala</authors>
     <owners>Aashish Koirala</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,8 +15,8 @@
       The package is free to download and use. The source code is open and provided under the GPL license.
     </description>
     <releaseNotes>
-      Major changes in 1.0.0.
-      On top of that, made LoginServiceHostFactory more configurable.
+      Major changes in 1.0.0 and 1.0.1.
+      On top of that, added new logging provider that uses the default trace (i.e. System.Diagnostics.Trace) for logging.
     </releaseNotes>
     <copyright>Copyright © 2013-2014 Aashish Koirala</copyright>
     <projectUrl>http://aashishkoirala.github.io/commons/</projectUrl>
