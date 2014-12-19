@@ -9,6 +9,10 @@ For more detailed information and documentation, please visit the GitHub page fo
 
 This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
 
+###### Updates (Web v1.0.3)
+
++ Downgraded to MVC 4 due to compatibility issues.
+
 ###### Updates (Web v1.0.2)
 
 + Added exception filters for both MVC and Web API that log the exception.
