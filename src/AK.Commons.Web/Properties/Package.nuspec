@@ -3,7 +3,7 @@
   <metadata>
     <id>AK.Commons.Web</id>
     <title>Aashish Koirala's Commons Web Library</title>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>Aashish Koirala</authors>
     <owners>Aashish Koirala</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -17,13 +17,13 @@
 		  Security components targeted specifically at single page applications (SPAs) that use WIF.	
     </description>
     <releaseNotes>
-      Breaking changes to ConfigureSecureLogin that now accepts more parameters for better configurability.
+      Added exception filters that log errors.
     </releaseNotes>
     <copyright>Copyright © 2014 Aashish Koirala</copyright>
     <projectUrl>http://aashishkoirala.github.io/commons/</projectUrl>
     <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
     <dependencies>
-      <dependency id="AK.Commons" version="1.0.1" />
+      <dependency id="AK.Commons" version="1.0.2" />
       <dependency id="AjaxMin" version="5.12.5436.22734" />
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.2" />
       <dependency id="Microsoft.AspNet.WebApi" version="4.0.20710.0" />

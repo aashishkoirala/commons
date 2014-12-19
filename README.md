@@ -9,9 +9,13 @@ For more detailed information and documentation, please visit the GitHub page fo
 
 This library only consists of interfaces and simple providers - the idea is to not need any extra libraries other than the framework assemblies. I have been building providers as I go. You can go through them in their own repository at [aashishkoirala.github.io/commons-providers](http://aashishkoirala.github.io/commons-providers).
 
+###### Updates (Web v1.0.2)
+
++ Added exception filters for both MVC and Web API that log the exception.
+
 ###### Updates (v1.0.2)
 
-+ Added new logging provider that uses the default trace (i.e. System.Diagnostics.Trace) for logging.
++ Added new logging provider that uses the default trace (i.e. `System.Diagnostics.Trace`) for logging.
 
 ###### Updates (Web v1.0.1)
 

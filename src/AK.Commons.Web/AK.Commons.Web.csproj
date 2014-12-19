@@ -35,8 +35,9 @@
     <Reference Include="AjaxMin">
       <HintPath>..\..\lib\AjaxMin.5.12.5436.22734\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="AK.Commons">
-      <HintPath>..\..\lib\AK.Commons.1.0.1\lib\net45\AK.Commons.dll</HintPath>
+    <Reference Include="AK.Commons, Version=1.0.2.0, Culture=neutral, PublicKeyToken=d1b7d9c059e7c6be, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\AK.Commons.1.0.2\lib\net45\AK.Commons.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\..\lib\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -122,6 +123,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\MvcLogExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\WebApiLogExceptionFilterAttribute.cs" />
     <Compile Include="JsonUtility.cs" />
     <Compile Include="LibraryResources\LibraryContentProvider.cs" />
     <Compile Include="LibraryResources\LibraryController.cs" />
