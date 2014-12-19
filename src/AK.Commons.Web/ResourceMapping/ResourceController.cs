@@ -21,6 +21,7 @@
 
 #region Namespace Imports
 
+using AK.Commons.Web.Filters;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net;
@@ -37,6 +38,7 @@ namespace AK.Commons.Web.ResourceMapping
     /// then serve requests based on resource mapping configuration defined using ResourceMap.
     /// </summary>
     /// <author>Aashish Koirala</author>
+    [WebApiLogExceptionFilter]
     public class ResourceController : ApiController
     {
         private readonly IResourceProvider resourceProvider;

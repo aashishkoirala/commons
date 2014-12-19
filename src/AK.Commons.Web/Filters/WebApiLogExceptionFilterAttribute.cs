@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************************************************************
- * AK.Commons.Web: AssemblyInfo
+ * AK.Commons.Web.Filters.WebApiLogExceptionFilterAttribute
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aashish Koirala's Commons Web Library (AKCWL).
@@ -21,19 +21,31 @@
 
 #region Namespace Imports
 
-using System.Reflection;
-using System.Runtime.InteropServices;
+using AK.Commons.Logging;
+using System.Web.Http.Filters;
 
 #endregion
 
-[assembly: AssemblyTitle("Aashish Koirala's Commons Web Library")]
-[assembly: AssemblyDescription("Aashish Koirala's Commons Web Library: Common web functionality for use in multiple applications")]
-[assembly: AssemblyConfiguration("Retail")]
-[assembly: AssemblyCompany("Aashish Koirala")]
-[assembly: AssemblyProduct("Aashish Koirala's Commons Web Library")]
-[assembly: AssemblyCopyright("Copyright © 2014 Aashish Koirala")]
-[assembly: AssemblyTrademark("")]
-[assembly: ComVisible(false)]
-[assembly: Guid("abd1f476-f97a-4cda-ad8a-1bbb16775f75")]
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
+namespace AK.Commons.Web.Filters
+{
+    /// <summary>
+    /// Exception filter for Web API that logs exceptions.
+    /// </summary>
+    /// <author>Aashish Koirala</author>
+    public class WebApiLogExceptionFilterAttribute : ExceptionFilterAttribute
+    {
+        /// <summary>
+        /// The logger to use - if not set, the default environment logger is used, which is the desired behavior.
+        /// This property is here mostly for you to inject the logger for testing.
+        /// </summary>
+        public IAppLogger Logger { get; set; }
+
+        public override void OnException(HttpActionExecutedContext actionExecutedContext)
+        {
+            var logger = this.Logger ?? AppEnvironment.Logger;
+            logger.Error(actionExecutedContext.Exception);
+
+            base.OnException(actionExecutedContext);
+        }
+    }
+}
