@@ -36,6 +36,16 @@ namespace AK.Commons.DomainDriven
     /// <author>Aashish Koirala</author>
     public static class DomainDrivenUtility
     {
+        #region Properties
+
+        /// <summary>
+        /// Override this method to supply IDomainRepository instances for testing. Do NOT
+        /// override this method in production code.
+        /// </summary>
+        public static Func<Type, IDomainRepository> DomainRepositoryFactory { get; set; }
+
+        #endregion
+
         #region IUnitOfWorkFactory Extensions
 
         /// <summary>
@@ -57,9 +67,14 @@ namespace AK.Commons.DomainDriven
         /// <typeparam name="T">Type of domain repository.</typeparam>
         /// <param name="factory">Unit of work factory.</param>
         /// <returns>Unit of work factory with the domain repository added as a participant.</returns>
-        public static IUnitOfWorkFactoryWithRepositoryMap With<T>(this IUnitOfWorkFactory factory) where T : IDomainRepository
+        public static IUnitOfWorkFactoryWithRepositoryMap With<T>(this IUnitOfWorkFactory factory)
+            where T : IDomainRepository
         {
-            return new UnitOfWorkFactory(factory, typeof(T), AppEnvironment.Composer.Resolve<T>());
+            var repository = DomainRepositoryFactory != null
+                                 ? DomainRepositoryFactory(typeof (T))
+                                 : AppEnvironment.Composer.Resolve<T>();
+
+            return new UnitOfWorkFactory(factory, typeof (T), repository);
         }
 
         /// <summary>
