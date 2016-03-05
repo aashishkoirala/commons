@@ -76,7 +76,10 @@
     <Compile Include="Aspects\IExitAspect.cs" />
     <Compile Include="Aspects\Utilities.cs" />
     <Compile Include="Aspects\VariableNames.cs" />
+    <Compile Include="Caching\ICache.cs" />
+    <Compile Include="Caching\ICacheEntry.cs" />
     <Compile Include="CodeGen\CodeGenerationOutput.cs" />
+    <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Composition\ComposerException.cs" />
     <Compile Include="Composition\IConfigurableProvider.cs" />
     <Compile Include="Configuration\AppConfigException.cs" />
@@ -96,6 +99,13 @@
     <Compile Include="DomainDriven\DomainObjects.cs" />
     <Compile Include="DomainDriven\DomainDrivenUtility.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
+    <Compile Include="Messaging\IHub.cs" />
+    <Compile Include="Messaging\IMessage.cs" />
+    <Compile Include="Messaging\IMessageHandler.cs" />
+    <Compile Include="Messaging\IQueue.cs" />
+    <Compile Include="Providers\DomainDriven\ListEntityIdGenerator.cs" />
+    <Compile Include="Providers\DomainDriven\SequentialNumericEntityIdGenerator.cs" />
+    <Compile Include="Providers\DomainDriven\SingleValueEntityIdGenerator.cs" />
     <Compile Include="Providers\Logging\DefaultTraceLoggingProvider.cs" />
     <Compile Include="ProviderSource.cs" />
     <Compile Include="Perhaps.cs" />
@@ -151,6 +161,8 @@
     <Compile Include="Services\ServiceCaller.cs" />
     <Compile Include="Services\ServiceCallerComposer.cs" />
     <Compile Include="Services\ServiceCallerFactory.cs" />
+    <Compile Include="Threading\ILock.cs" />
+    <Compile Include="Threading\ILocker.cs" />
     <Compile Include="Threading\LockedObject.cs" />
     <Compile Include="Threading\LockedValue.cs" />
     <Compile Include="Utility.cs" />
