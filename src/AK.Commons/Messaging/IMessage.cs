@@ -6,5 +6,6 @@ namespace AK.Commons.Messaging
     {
         IDictionary<string, object> Headers { get; }
         T Body<T>();
+        string BodyTypeName { get; }
     }
 }
