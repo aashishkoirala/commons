@@ -33,6 +33,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
+using AK.Commons.Commands;
 
 #endregion
 
@@ -186,6 +187,18 @@ namespace AK.Commons
 
                 return new ProviderSource<IEntityIdGeneratorProvider>(
                     ConfigKeyEntityIdGeneratorFormat, ConfigKeyEntityIdGeneratorProviderFormat, config, composer);
+            }
+        }
+
+        [Export(typeof (IProviderSource<ICommander>))]
+        public static IProviderSource<ICommander> Commanders
+        {
+            get
+            {
+                if (!IsInitialized)
+                    throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
+
+                return new CommanderProvider(composer, config, logger);
             }
         }
 
