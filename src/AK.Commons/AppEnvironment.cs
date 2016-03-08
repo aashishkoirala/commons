@@ -33,6 +33,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
+using AK.Commons.Caching;
 using AK.Commons.Commands;
 using AK.Commons.Messaging;
 
@@ -53,6 +54,8 @@ namespace AK.Commons
         private const string ConfigKeyEntityIdGeneratorProviderFormat = ConfigKeyEntityIdGeneratorFormat + ".provider";
         private const string ConfigKeyQueueFormat = "ak.commons.messaging.queue.{0}";
         private const string ConfigKeyQueueProviderFormat = ConfigKeyQueueFormat + ".provider";
+        private const string ConfigKeyCacheFormat = "ak.commons.caching.cache.{0}";
+        private const string ConfigKeyCacheProviderFormat = ConfigKeyQueueFormat + ".provider";
 
         #endregion
 
@@ -214,6 +217,18 @@ namespace AK.Commons
                     throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
 
                 return new ProviderSource<IQueue>(ConfigKeyQueueFormat, ConfigKeyQueueProviderFormat, config, composer);
+            }
+        }
+
+        [Export(typeof(IProviderSource<ICache>))]
+        public static IProviderSource<ICache> Caches
+        {
+            get
+            {
+                if (!IsInitialized)
+                    throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
+
+                return new ProviderSource<ICache>(ConfigKeyCacheFormat, ConfigKeyCacheProviderFormat, config, composer);
             }
         }
 
