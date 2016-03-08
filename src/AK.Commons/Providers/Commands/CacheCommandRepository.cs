@@ -11,7 +11,7 @@ namespace AK.Commons.Providers.Commands
     [Export(typeof (ICommandRepository)), PartCreationPolicy(CreationPolicy.NonShared), ProviderMetadata("Cache")]
     public class CacheCommandRepository : ICommandRepository, IConfigurableProvider
     {
-        private const string CacheNameConfigKey = "CacheName";
+        private const string CacheReferenceNameConfigKey = "CacheReferenceName";
 
         private readonly IAppConfig config;
         private readonly IComposer composer;
@@ -31,8 +31,8 @@ namespace AK.Commons.Providers.Commands
             if (this.isConfigured) return;
             this.isConfigured = true;
 
-            var cacheName = this.config.Get<string>($"{configKeyPrefix}.{CacheNameConfigKey}");
-            this.cache = this.composer.Resolve<IProviderSource<ICache>>()[cacheName];
+            var cacheReferenceName = this.config.Get<string>($"{configKeyPrefix}.{CacheReferenceNameConfigKey}");
+            this.cache = this.composer.Resolve<IProviderSource<ICache>>()[cacheReferenceName];
         }
 
         public string[] ListEligibleIds()
@@ -53,7 +53,8 @@ namespace AK.Commons.Providers.Commands
             var commandCacheObject = entry.Value;
             var command = this.composer.Resolve<ICommand>(commandCacheObject.Name);
             command.State = new CommandState(commandCacheObject.State);
-            command.Parameters = new CommandParameters(commandCacheObject.Parameters);
+            command.Parameters = new CommandParameters();
+            command.Parameters.Deserialize(commandCacheObject.Parameters);
 
             return command;
         }

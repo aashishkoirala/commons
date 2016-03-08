@@ -36,6 +36,7 @@ using System.Reflection;
 using AK.Commons.Caching;
 using AK.Commons.Commands;
 using AK.Commons.Messaging;
+using AK.Commons.Threading;
 
 #endregion
 
@@ -56,6 +57,8 @@ namespace AK.Commons
         private const string ConfigKeyQueueProviderFormat = ConfigKeyQueueFormat + ".provider";
         private const string ConfigKeyCacheFormat = "ak.commons.caching.cache.{0}";
         private const string ConfigKeyCacheProviderFormat = ConfigKeyCacheFormat + ".provider";
+        private const string ConfigKeyLockerFormat = "ak.commons.threading.locker.{0}";
+        private const string ConfigKeyLockerProviderFormat = ConfigKeyLockerFormat + ".provider";
 
         #endregion
 
@@ -229,6 +232,18 @@ namespace AK.Commons
                     throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
 
                 return new ProviderSource<ICache>(ConfigKeyCacheFormat, ConfigKeyCacheProviderFormat, config, composer);
+            }
+        }
+
+        [Export(typeof(IProviderSource<ILocker>))]
+        public static IProviderSource<ILocker> Lockers
+        {
+            get
+            {
+                if (!IsInitialized)
+                    throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
+
+                return new ProviderSource<ILocker>(ConfigKeyLockerFormat, ConfigKeyLockerProviderFormat, config, composer);
             }
         }
 

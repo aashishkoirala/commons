@@ -12,11 +12,14 @@ namespace AK.Commons.Commands
         private const string ConfigKeyFormat = "ak.commons.commands.{0}";
         private const string ConfigKeyRepositoryFormat = ConfigKeyFormat + ".repository";
         private const string ConfigKeyQueueFormat = ConfigKeyFormat + ".queue";
+        private const string ConfigKeyLockerFormat = ConfigKeyFormat + ".locker";
         private const string ConfigKeyRepositoryProviderFormat = ConfigKeyRepositoryFormat + ".provider";
         private const string ConfigKeyQueueProviderFormat = ConfigKeyQueueFormat + ".provider";
+        private const string ConfigKeyLockerProviderFormat = ConfigKeyLockerFormat + ".provider";
 
         private readonly IProviderSource<ICommandRepository> repositoryProvider;
         private readonly IProviderSource<IQueue> queueProvider;
+        private readonly IProviderSource<ILocker> lockerProvider;
         private readonly IComposer composer;
         private readonly IAppLogger logger;
 
@@ -30,6 +33,7 @@ namespace AK.Commons.Commands
             this.repositoryProvider = new ProviderSource<ICommandRepository>(
                 ConfigKeyRepositoryFormat, ConfigKeyRepositoryProviderFormat, config, composer);
             this.queueProvider = new ProviderSource<IQueue>(ConfigKeyQueueFormat, ConfigKeyQueueProviderFormat, config, composer);
+            this.lockerProvider = new ProviderSource<ILocker>(ConfigKeyLockerFormat, ConfigKeyLockerProviderFormat, config, composer);
         }
 
         public ICommander this[string name] => this.GetCommander(name);
@@ -40,7 +44,8 @@ namespace AK.Commons.Commands
         {
             var repository = name == null ? this.repositoryProvider.Default : this.repositoryProvider[name];
             var queue = name == null ? this.queueProvider.Default : this.queueProvider[name];
-            var executor = new CommandExecutor(this.composer, this.logger, repository);
+            var locker = name == null ? this.lockerProvider.Default : this.lockerProvider[name];
+            var executor = new CommandExecutor(this.composer, this.logger, repository, locker);
             var engine = new CommandEngine(this.logger, executor, repository, queue);
 
             return new Commander(this.composer, repository, engine);

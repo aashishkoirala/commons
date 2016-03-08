@@ -161,6 +161,7 @@
     <Compile Include="Providers\Logging\EmailLoggingProvider.cs" />
     <Compile Include="Providers\Logging\TextFileLoggingProvider.cs" />
     <Compile Include="Providers\Security\PfxFileCertificateProvider.cs" />
+    <Compile Include="Providers\Threading\InMemoryLocker.cs" />
     <Compile Include="Security\CertificateProvider.cs" />
     <Compile Include="Security\SecurityUtility.cs" />
     <Compile Include="Security\ILoginService.cs" />

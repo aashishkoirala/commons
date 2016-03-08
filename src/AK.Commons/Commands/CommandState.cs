@@ -19,7 +19,7 @@ namespace AK.Commons.Commands
         }
 
         public bool Success => !this.Errors.Any();
-        public string Id { get; }
+        public string Id { get; private set; }
         public string UnitName { get; set; }
         public string NextUnitName { get; set; }
         public CommandUnitState UnitState { get; set; }
@@ -37,6 +37,7 @@ namespace AK.Commons.Commands
                 hash = (IDictionary<string, string>) formatter.Deserialize(stream);
             }
 
+            this.Id = hash[nameof(this.Id)];
             this.UnitName = hash[nameof(this.UnitName)];
             this.NextUnitName = hash[nameof(this.NextUnitName)];
             this.UnitState = (CommandUnitState) Enum.Parse(typeof (CommandUnitState), hash[nameof(this.UnitState)]);
@@ -50,6 +51,7 @@ namespace AK.Commons.Commands
         {
             var hash = new Dictionary<string, string>
             {
+                [nameof(this.Id)] = this.Id,
                 [nameof(this.UnitName)] = this.UnitName,
                 [nameof(this.NextUnitName)] = this.NextUnitName,
                 [nameof(this.UnitState)] = this.UnitState.ToString(),

@@ -11,17 +11,12 @@ namespace AK.Commons.Commands
     {
         public static readonly CommandParameters Empty = new CommandParameters(null);
 
-        public CommandParameters(object parameters)
+        public CommandParameters(object parameters = null)
         {
             this.Values = ConvertObjectToDictionary(parameters);
         }
 
-        public CommandParameters(byte[] serialized)
-        {
-            this.Values = Deserialize(serialized);
-        }
-
-        public IDictionary<string, string> Values { get; }
+        public IDictionary<string, string> Values { get; private set; }
 
         private static IDictionary<string, string> ConvertObjectToDictionary(object obj)
         {
@@ -30,7 +25,7 @@ namespace AK.Commons.Commands
 
             var properties = obj.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => x.CanRead && x.CanWrite);
+                .Where(x => x.CanRead);
 
             foreach (var property in properties)
             {
@@ -55,12 +50,12 @@ namespace AK.Commons.Commands
             return result;
         }
 
-        private static IDictionary<string, string> Deserialize(byte[] serialized)
+        public void Deserialize(byte[] serialized)
         {
             var formatter = new BinaryFormatter();
             using (var stream = new MemoryStream(serialized))
             {
-                return (IDictionary<string, string>) formatter.Deserialize(stream);
+                this.Values = (IDictionary<string, string>) formatter.Deserialize(stream);
             }
         }
 

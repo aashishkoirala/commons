@@ -1,4 +1,5 @@
-﻿using AK.Commons.Composition;
+﻿using System.Linq;
+using AK.Commons.Composition;
 
 namespace AK.Commons.Commands
 {
@@ -27,7 +28,9 @@ namespace AK.Commons.Commands
         public string Issue(string name, object parameters)
         {
             var command = this.composer.Resolve<ICommand>(name);
+            command.Parameters = new CommandParameters(parameters);
             var id = this.repository.NextId();
+            command.State = new CommandState(id) {UnitName = command.Definition.UnitNames.First(), UnitState = CommandUnitState.Idle};
 
             this.repository.Put(id, command);
             this.engine.Invoke(id);

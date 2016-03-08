@@ -2,6 +2,7 @@
 using System.Threading;
 using AK.Commons.Composition;
 using AK.Commons.Logging;
+using AK.Commons.Threading;
 
 namespace AK.Commons.Commands
 {
@@ -15,24 +16,57 @@ namespace AK.Commons.Commands
         private readonly IComposer composer;
         private readonly IAppLogger logger;
         private readonly ICommandRepository repository;
+        private readonly ILocker locker;
 
-        public CommandExecutor(IComposer composer, IAppLogger logger, ICommandRepository repository)
+        public CommandExecutor(IComposer composer, IAppLogger logger, ICommandRepository repository, ILocker locker)
         {
             this.composer = composer;
             this.logger = logger;
             this.repository = repository;
+            this.locker = locker;
         }
 
         public bool Execute(InvokeCommandRequest request)
         {
-            var execute = false;
             var command = this.repository.Get(request.Id);
             if (command == null) return false;
+
+            bool execute, invoke;
+            using (var handle = this.locker.Lock($"AK.Commons.Command.{request.Id}", 5, TimeSpan.FromMinutes(1)))
+            {
+                if (!handle.Attained)
+                {
+                    request.Attempt++;
+                    if (request.Attempt > 10) return false;
+                    Thread.Sleep(TimeSpan.FromMinutes(5));
+                }
+                bool update;
+                this.PreExecute(request, command, out invoke, out execute, out update);
+                if (update) this.repository.Put(request.Id, command);
+            }
+
+            if (!execute) return invoke;
+
+            this.ExecuteUnit(command);
+            using (var handle = this.locker.Lock($"AK.Commons.Command.{request.Id}", 5, TimeSpan.FromMinutes(1)))
+            {
+                if (!handle.Attained) return invoke;
+                this.repository.Put(request.Id, command);
+            }
+
+            return invoke;
+        }
+
+        private void PreExecute(InvokeCommandRequest request, ICommand command, out bool invoke, out bool execute, out bool update)
+        {
+            execute = false;
+            invoke = false;
+            update = false;
 
             switch (command.State.UnitState)
             {
                 case CommandUnitState.AllDone:
-                    return false;
+                    return;
 
                 case CommandUnitState.Done:
                     var nextUnitName = this.ExtractNextUnitName(command);
@@ -47,7 +81,7 @@ namespace AK.Commons.Commands
 
                 case CommandUnitState.Running:
                     request.Attempt++;
-                    if (request.Attempt > 10) return false;
+                    if (request.Attempt > 10) return;
                     Thread.Sleep(TimeSpan.FromSeconds(30));
                     break;
 
@@ -63,13 +97,11 @@ namespace AK.Commons.Commands
                     break;
 
                 default:
-                    return false;
+                    return;
             }
 
-            this.repository.Put(request.Id, command);
-            if (execute) this.ExecuteUnit(command);
-            this.repository.Put(request.Id, command);
-            return true;
+            update = true;
+            invoke = true;
         }
 
         private string ExtractNextUnitName(ICommand command)
