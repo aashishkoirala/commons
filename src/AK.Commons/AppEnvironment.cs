@@ -34,6 +34,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using AK.Commons.Commands;
+using AK.Commons.Messaging;
 
 #endregion
 
@@ -50,6 +51,8 @@ namespace AK.Commons
 
         private const string ConfigKeyEntityIdGeneratorFormat = "ak.commons.domaindriven.entityidgenerator.{0}";
         private const string ConfigKeyEntityIdGeneratorProviderFormat = ConfigKeyEntityIdGeneratorFormat + ".provider";
+        private const string ConfigKeyQueueFormat = "ak.commons.messaging.queue.{0}";
+        private const string ConfigKeyQueueProviderFormat = ConfigKeyQueueFormat + ".provider";
 
         #endregion
 
@@ -199,6 +202,18 @@ namespace AK.Commons
                     throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
 
                 return new CommanderProvider(composer, config, logger);
+            }
+        }
+
+        [Export(typeof(IProviderSource<IQueue>))]
+        public static IProviderSource<IQueue> Queues
+        {
+            get
+            {
+                if (!IsInitialized)
+                    throw new InitializationException(InitializationExceptionReason.ApplicationNotInitialized);
+
+                return new ProviderSource<IQueue>(ConfigKeyQueueFormat, ConfigKeyQueueProviderFormat, config, composer);
             }
         }
 

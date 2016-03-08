@@ -12,18 +12,8 @@ namespace AK.Commons.Commands
             this.CurrentUnitNameFactory = currentUnitNameFactory;
         }
 
-        public CommandDefinition(byte[] serialized)
-        {
-
-        }
-
         public string Name { get; }
         public string[] UnitNames { get; }
         public Func<IComposer, string> CurrentUnitNameFactory { get; }
-
-        public byte[] Serialize()
-        {
-            return null;
-        }
     }
 }
