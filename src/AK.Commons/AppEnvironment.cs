@@ -55,7 +55,7 @@ namespace AK.Commons
         private const string ConfigKeyQueueFormat = "ak.commons.messaging.queue.{0}";
         private const string ConfigKeyQueueProviderFormat = ConfigKeyQueueFormat + ".provider";
         private const string ConfigKeyCacheFormat = "ak.commons.caching.cache.{0}";
-        private const string ConfigKeyCacheProviderFormat = ConfigKeyQueueFormat + ".provider";
+        private const string ConfigKeyCacheProviderFormat = ConfigKeyCacheFormat + ".provider";
 
         #endregion
 

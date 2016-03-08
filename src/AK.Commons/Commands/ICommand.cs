@@ -6,7 +6,7 @@ namespace AK.Commons.Commands
     public interface ICommand
     {
         CommandDefinition Definition { get; }
-        CommandState State { get; }
-        CommandParameters Parameters { get; }
+        CommandState State { get; set; }
+        CommandParameters Parameters { get; set; }
     }
 }

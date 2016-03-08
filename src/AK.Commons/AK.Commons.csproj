@@ -111,6 +111,7 @@
     <Compile Include="DomainDriven\DomainDrivenUtility.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
     <Compile Include="Providers\Caching\InMemoryCache.cs" />
+    <Compile Include="Providers\Commands\CacheCommandRepository.cs" />
     <Compile Include="Providers\Messaging\InMemoryQueue.cs" />
     <Compile Include="Messaging\IHub.cs" />
     <Compile Include="Messaging\IMessage.cs" />

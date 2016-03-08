@@ -5,6 +5,7 @@ namespace AK.Commons.Commands
     public interface ICommander
     {
         string Issue(string name, object parameters);
+        ICommand Inspect(string id);
         void Nudge(string id);
         void StartEngine();
         void StopEngine();
@@ -32,6 +33,11 @@ namespace AK.Commons.Commands
             this.engine.Invoke(id);
 
             return id;
+        }
+
+        public ICommand Inspect(string id)
+        {
+            return this.repository.Get(id);
         }
 
         public void Nudge(string id)

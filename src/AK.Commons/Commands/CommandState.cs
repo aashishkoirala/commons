@@ -8,8 +8,9 @@ namespace AK.Commons.Commands
 {
     public class CommandState
     {
-        public CommandState()
+        public CommandState(string id)
         {
+            this.Id = id;
         }
 
         public CommandState(byte[] serialized)
@@ -18,6 +19,7 @@ namespace AK.Commons.Commands
         }
 
         public bool Success => !this.Errors.Any();
+        public string Id { get; }
         public string UnitName { get; set; }
         public string NextUnitName { get; set; }
         public CommandUnitState UnitState { get; set; }

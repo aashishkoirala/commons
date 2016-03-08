@@ -51,6 +51,8 @@ namespace AK.Commons.Providers.Caching
 
         public ICacheEntry<T> Get<T>(string key, Func<T> valueFactory = null)
         {
+            if (!this.isConfigured) throw new InvalidOperationException("Not configured.");
+
             var perhapsEntry = this.cache.ExecuteRead(x => x.LookFor(key));
             if (perhapsEntry.IsThere)
             {
@@ -66,6 +68,8 @@ namespace AK.Commons.Providers.Caching
 
         public ICacheEntry<T> Put<T>(string key, T value)
         {
+            if (!this.isConfigured) throw new InvalidOperationException("Not configured.");
+
             var entry = new InMemoryCacheEntry<T>(true, DateTime.Now,
                 DateTime.Now.AddMilliseconds(this.expiryMilliseconds), value);
             this.cache.ExecuteWrite(x => x[key] = entry);
@@ -74,6 +78,8 @@ namespace AK.Commons.Providers.Caching
 
         public void Evict(string key)
         {
+            if (!this.isConfigured) throw new InvalidOperationException("Not configured.");
+
             var exists = this.cache.ExecuteRead(x => x.ContainsKey(key));
             if (!exists) return;
             this.cache.ExecuteWrite(x => x.Remove(key));
