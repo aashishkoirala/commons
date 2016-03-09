@@ -263,6 +263,8 @@ namespace AK.Commons.Composition
         /// <returns>List of lazy pointers to resolved instances of the contract.</returns>
         IEnumerable<Lazy<object, object>> ResolveManyLazy(Type contractType, Type metadataType = null, string contractName = null);
 
+        TResponse Send<TResponse>(IRequest<TResponse> request);
+        void Send(IRequest<Void> request);
     }
 
     #endregion
@@ -433,6 +435,43 @@ namespace AK.Commons.Composition
                                                                  string contractName = null)
         {
             return this.Container.GetExports(contractType, metadataType, contractName ?? string.Empty);
+        }
+
+        #endregion
+
+        #region Method (Send)
+
+        public TResponse Send<TResponse>(IRequest<TResponse> request)
+        {
+            var requestHandlerType = typeof (IRequestHandler<,>).MakeGenericType(request.GetType(), typeof (TResponse));
+            var exports = this.ResolveManyLazy(requestHandlerType).ToArray();
+            if (!exports.Any()) return typeof (TResponse) == typeof (Void) ? (TResponse) (object) Void.Value : default(TResponse);
+
+            if (typeof (TResponse) != typeof (Void)) exports = new[] {exports.Single()};
+
+            var response = default(TResponse);
+            exports.ForEach(x =>
+            {
+                var handler = x.Value;
+                var method = handler.GetType().GetMethod("Handle", new[] {request.GetType()});
+                response = (TResponse) method.Invoke(handler, new object[] {request});
+            });
+
+            return response;
+        }
+
+        public void Send(IRequest<Void> request)
+        {
+            var requestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(request.GetType(), typeof(Void));
+            var exports = this.ResolveManyLazy(requestHandlerType).ToArray();
+            if (!exports.Any()) return;
+
+            exports.ForEach(x =>
+            {
+                var handler = x.Value;
+                var method = handler.GetType().GetMethod("Handle", new[] { request.GetType() });
+                method.Invoke(handler, new object[] { request });
+            });
         }
 
         #endregion

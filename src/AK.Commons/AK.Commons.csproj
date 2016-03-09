@@ -93,6 +93,9 @@
     <Compile Include="Commands\InvokeCommandMessage.cs" />
     <Compile Include="Composition\ComposerException.cs" />
     <Compile Include="Composition\IConfigurableProvider.cs" />
+    <Compile Include="Composition\IRequest.cs" />
+    <Compile Include="Composition\IRequestHandler.cs" />
+    <Compile Include="Composition\Void.cs" />
     <Compile Include="Configuration\AppConfigException.cs" />
     <Compile Include="DataAccess\DataAccessException.cs" />
     <Compile Include="DataAccess\AppDataAccess.cs" />
