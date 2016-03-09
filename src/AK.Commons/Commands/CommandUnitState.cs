@@ -6,6 +6,7 @@
         Running,
         Done,
         Failed,
-        AllDone
+        AllDone,
+        Damaged
     }
 }

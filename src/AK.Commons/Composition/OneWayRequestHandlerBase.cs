@@ -1,6 +1,6 @@
 ﻿namespace AK.Commons.Composition
 {
-    public abstract class OneWayRequestHandlerBase<TRequest> : IRequestHandler<TRequest, Void> where TRequest : IRequest<Void>
+    public abstract class OneWayRequestHandlerBase<TRequest> : IRequestHandler<TRequest, Void> where TRequest : IRequest
     {
         public Void Handle(TRequest request)
         {

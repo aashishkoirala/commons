@@ -44,7 +44,7 @@ namespace AK.Commons.DomainDriven
         /// </summary>
         /// <typeparam name="TEntity">Type of entity.</typeparam>
         /// <returns>Next entity ID value.</returns>
-        TKey Next<TEntity>() where TEntity : IEntity<TEntity, TKey>;
+        TKey Next<TEntity>();
     }
 
     #endregion
@@ -80,7 +80,7 @@ namespace AK.Commons.DomainDriven
         /// </summary>
         /// <typeparam name="TEntity">Type of entity.</typeparam>
         /// <returns>Next entity ID value.</returns>
-        public TKey Next<TEntity>() where TEntity : IEntity<TEntity, TKey>
+        public TKey Next<TEntity>()
         {
             var queue = this.GetQueue<TEntity>();
 

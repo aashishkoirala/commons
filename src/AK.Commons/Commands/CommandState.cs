@@ -24,6 +24,7 @@ namespace AK.Commons.Commands
         public string NextUnitName { get; set; }
         public CommandUnitState UnitState { get; set; }
         public bool RecoveringFromFailure { get; set; }
+        public int FailedAttempts { get; set; }
         public ICollection<string> Errors { get; } = new List<string>();
         public IDictionary<string, string> Values { get; } = new Dictionary<string, string>();
 
@@ -42,6 +43,7 @@ namespace AK.Commons.Commands
             this.NextUnitName = hash[nameof(this.NextUnitName)];
             this.UnitState = (CommandUnitState) Enum.Parse(typeof (CommandUnitState), hash[nameof(this.UnitState)]);
             this.RecoveringFromFailure = bool.Parse(hash[nameof(this.RecoveringFromFailure)]);
+            this.FailedAttempts = int.Parse(hash[nameof(this.FailedAttempts)]);
 
             foreach (var key in hash.Keys.Where(x => x.StartsWith("Error."))) this.Errors.Add(hash[key]);
             foreach (var key in hash.Keys.Where(x => x.StartsWith("Values."))) this.Values[key.Substring(7)] = hash[key];
@@ -55,7 +57,8 @@ namespace AK.Commons.Commands
                 [nameof(this.UnitName)] = this.UnitName,
                 [nameof(this.NextUnitName)] = this.NextUnitName,
                 [nameof(this.UnitState)] = this.UnitState.ToString(),
-                [nameof(this.RecoveringFromFailure)] = this.RecoveringFromFailure.ToString()
+                [nameof(this.RecoveringFromFailure)] = this.RecoveringFromFailure.ToString(),
+                [nameof(this.FailedAttempts)] = this.FailedAttempts.ToString()
             };
 
             for (var i = 0; i < this.Errors.Count; i++) hash[$"Error.{i}"] = this.Errors.ElementAt(i);

@@ -12,7 +12,7 @@ namespace AK.Commons.Providers.DomainDriven
             this.enumerator = list.GetEnumerator();
         }
 
-        public T Next<TEntity>() where TEntity : IEntity<TEntity, T>
+        public T Next<TEntity>()
         {
             this.enumerator.MoveNext();
             return this.enumerator.Current;

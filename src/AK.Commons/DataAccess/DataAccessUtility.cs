@@ -20,6 +20,7 @@
  *******************************************************************************************************************************/
 
 using System;
+using AK.Commons.Composition;
 
 namespace AK.Commons.DataAccess
 {
@@ -58,6 +59,24 @@ namespace AK.Commons.DataAccess
                 unit.Commit();
                 return result;
             }
+        }
+
+        public static T Execute<T>(this IUnitOfWorkFactory factory, IComposer composer, IQuery<T> query)
+        {
+            return factory.Execute(x =>
+            {
+                query.UnitOfWork = x;
+                return composer.Send(query);
+            });
+        }
+
+        public static void Execute(this IUnitOfWorkFactory factory, IComposer composer, ICommand command)
+        {
+            factory.Execute(x =>
+            {
+                command.UnitOfWork = x;
+                composer.Send(command);
+            });
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AK.Commons.Providers.DomainDriven
             this.value = value;
         }
 
-        public T Next<TEntity>() where TEntity : IEntity<TEntity, T>
+        public T Next<TEntity>()
         {
             return this.value;
         }

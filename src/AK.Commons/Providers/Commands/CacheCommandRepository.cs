@@ -70,7 +70,7 @@ namespace AK.Commons.Providers.Commands
                 Parameters = command.Parameters.Serialize()
             };
 
-            var isEligible = command.State.UnitState != CommandUnitState.AllDone;
+            var isEligible = command.State.UnitState != CommandUnitState.AllDone && command.State.UnitState != CommandUnitState.Damaged;
 
             var eligibleIds = this.ListEligibleIds();
             var wasEligible = eligibleIds.Contains(id);

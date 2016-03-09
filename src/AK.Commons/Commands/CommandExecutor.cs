@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using AK.Commons.Composition;
 using AK.Commons.Logging;
@@ -86,6 +87,14 @@ namespace AK.Commons.Commands
                     break;
 
                 case CommandUnitState.Failed:
+                    command.State.FailedAttempts++;
+                    if (command.State.FailedAttempts > 5)
+                    {
+                        command.State.UnitState = CommandUnitState.Damaged;
+                        update = true;
+                        invoke = false;
+                        return;
+                    }
                     command.State.RecoveringFromFailure = true;
                     command.State.UnitState = CommandUnitState.Idle;
                     break;
@@ -94,6 +103,12 @@ namespace AK.Commons.Commands
                     command.State.UnitState = CommandUnitState.Running;
                     command.State.NextUnitName = EvaluateNextUnitName(command);
                     execute = true;
+                    break;
+
+                case CommandUnitState.Damaged:
+                    command.State.FailedAttempts = 0;
+                    command.State.RecoveringFromFailure = true;
+                    command.State.UnitState = CommandUnitState.Idle;
                     break;
 
                 default:
@@ -123,8 +138,8 @@ namespace AK.Commons.Commands
             {
                 var unit = this.composer.Resolve<ICommandUnit>(command.State.UnitName);
                 unit.Execute(command);
-
-                command.State.UnitState = CommandUnitState.Done;
+                command.State.UnitState = command.State.Errors.Any() ? CommandUnitState.Failed : CommandUnitState.Done;
+                if (command.State.Errors.Any()) Console.WriteLine(command.State.Errors.First());
             }
             catch (Exception ex)
             {

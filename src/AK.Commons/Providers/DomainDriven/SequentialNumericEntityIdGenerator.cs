@@ -14,7 +14,7 @@ namespace AK.Commons.Providers.DomainDriven
             this.step = step;
         }
 
-        public T Next<TEntity>() where TEntity : IEntity<TEntity, T>
+        public T Next<TEntity>()
         {
             var next = (T) Convert.ChangeType(this.current, typeof (T));
             this.current += this.step;
