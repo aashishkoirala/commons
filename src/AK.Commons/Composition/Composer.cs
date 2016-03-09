@@ -264,7 +264,7 @@ namespace AK.Commons.Composition
         IEnumerable<Lazy<object, object>> ResolveManyLazy(Type contractType, Type metadataType = null, string contractName = null);
 
         TResponse Send<TResponse>(IRequest<TResponse> request);
-        void Send(IRequest<Void> request);
+        void Send(IRequest request);
     }
 
     #endregion
@@ -460,7 +460,7 @@ namespace AK.Commons.Composition
             return response;
         }
 
-        public void Send(IRequest<Void> request)
+        public void Send(IRequest request)
         {
             var requestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(request.GetType(), typeof(Void));
             var exports = this.ResolveManyLazy(requestHandlerType).ToArray();

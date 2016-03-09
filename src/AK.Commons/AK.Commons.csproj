@@ -95,6 +95,7 @@
     <Compile Include="Composition\IConfigurableProvider.cs" />
     <Compile Include="Composition\IRequest.cs" />
     <Compile Include="Composition\IRequestHandler.cs" />
+    <Compile Include="Composition\OneWayRequestHandlerBase.cs" />
     <Compile Include="Composition\Void.cs" />
     <Compile Include="Configuration\AppConfigException.cs" />
     <Compile Include="DataAccess\DataAccessException.cs" />
@@ -102,6 +103,8 @@
     <Compile Include="DataAccess\IEntityKeyMap.cs" />
     <Compile Include="DataAccess\IEntityKeyMapper.cs" />
     <Compile Include="DataAccess\DataAccessUtility.cs" />
+    <Compile Include="DataAccess\ICommand.cs" />
+    <Compile Include="DataAccess\IQuery.cs" />
     <Compile Include="DomainDriven\EntityIdGenerator.cs" />
     <Compile Include="DomainDriven\EntityIdGeneratorProvider.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
