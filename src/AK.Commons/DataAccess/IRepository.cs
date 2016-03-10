@@ -36,7 +36,7 @@ namespace AK.Commons.DataAccess
     /// </summary>
     /// <typeparam name="T">Type of entity this repository houses.</typeparam>
     /// <author>Aashish Koirala</author>
-    public interface IRepository<T> : IRepository where T : class
+    public interface IRepository<T> : IRepository where T : class, IIdentityEquatable<T>
     {
         /// <summary>
         /// A LINQ-queryable interface for data access to the repository.

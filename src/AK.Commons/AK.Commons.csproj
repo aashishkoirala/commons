@@ -104,6 +104,7 @@
     <Compile Include="DataAccess\IEntityKeyMapper.cs" />
     <Compile Include="DataAccess\DataAccessUtility.cs" />
     <Compile Include="DataAccess\ICommand.cs" />
+    <Compile Include="DataAccess\IIdentityEquatable.cs" />
     <Compile Include="DataAccess\IQuery.cs" />
     <Compile Include="DomainDriven\EntityIdGenerator.cs" />
     <Compile Include="DomainDriven\EntityIdGeneratorProvider.cs" />
