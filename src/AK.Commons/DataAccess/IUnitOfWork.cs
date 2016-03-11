@@ -40,7 +40,7 @@ namespace AK.Commons.DataAccess
         /// </summary>
         /// <typeparam name="T">Entity type.</typeparam>
         /// <returns>Repository instance.</returns>
-        IRepository<T> Repository<T>() where T : class, IIdentityEquatable<T>;
+        IRepository<T> Repository<T>() where T : class;
 
         /// <summary>
         /// Gets the next value in the given sequence.

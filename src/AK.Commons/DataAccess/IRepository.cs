@@ -36,8 +36,12 @@ namespace AK.Commons.DataAccess
     /// </summary>
     /// <typeparam name="T">Type of entity this repository houses.</typeparam>
     /// <author>Aashish Koirala</author>
-    public interface IRepository<T> : IRepository where T : class, IIdentityEquatable<T>
+    public interface IRepository<T> : IRepository where T : class
     {
+        T Get<TKey>(TKey id) where TKey : struct;
+
+        T GetOrCreate<TKey>(TKey id) where TKey : struct;
+        
         /// <summary>
         /// A LINQ-queryable interface for data access to the repository.
         /// </summary>
@@ -50,7 +54,7 @@ namespace AK.Commons.DataAccess
         void Save(T thing);
 
         /// <summary>
-        /// Deletes the geiven entity from the repository.
+        /// Deletes the given entity from the repository.
         /// </summary>
         /// <param name="thing">Entity to delete.</param>
         void Delete(T thing);
