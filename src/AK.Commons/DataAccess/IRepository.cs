@@ -38,6 +38,8 @@ namespace AK.Commons.DataAccess
     /// <author>Aashish Koirala</author>
     public interface IRepository<T> : IRepository where T : class
     {
+        T Create<TKey>(TKey id) where TKey : struct;
+
         T Get<TKey>(TKey id) where TKey : struct;
 
         T GetOrCreate<TKey>(TKey id) where TKey : struct;
