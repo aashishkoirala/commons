@@ -56,5 +56,10 @@ namespace AK.Commons.DataAccess
         /// Commits the unit of work.
         /// </summary>
         void Commit();
+
+        /// <summary>
+        /// Resets changes.
+        /// </summary>
+        void ResetChanges();
     }
 }

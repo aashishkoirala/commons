@@ -14,6 +14,25 @@ namespace AK.Commons.Linq
             return queryable.Where(expr);
         }
 
+        public static IQueryable<T> Filter<T, P>(this IQueryable<T> query, P[] idList, Expression<Func<T, P>> member)
+        {
+            if (idList == null || !idList.Any()) return query;
+            var id = idList[0];
+            Expression<Func<T, bool>> predicate;
+            Expression body;
+            if (idList.Length == 1)
+            {
+                body = Expression.Equal(member.Body, Expression.Constant(id));
+            }
+            else
+            {
+                body = Expression.Call(null, typeof(Enumerable).GetMethods().Single(x => x.Name == "Contains" && x.GetParameters().Length == 2).MakeGenericMethod(typeof(P)), Expression.Constant(idList), member.Body);
+            }
+            predicate = (Expression<Func<T, bool>>)Expression.Lambda(body, member.Parameters);
+
+            return query.Where(predicate);
+        }
+
         private static Expression<Func<TElement, bool>> ConvertArrayToOrList<TElement, TProperty>(
             Expression<Func<TElement, TProperty>> property, IEnumerable<TProperty> values)
         {
